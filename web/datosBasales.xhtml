@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Datos Basales</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Basales Cargada");
+                        $(".guardarBasalesClick").unbind("click");
+                        $(".guardarBasalesClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if (confirm("¿Realmente desea guardar los datos ingresados?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{basalesBean.pacienteID}" />
+                    <h:inputHidden value="#{basalesBean.basalesID}" />
+                  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                <td colspan="6" class="titulo">
+                    DATOS BASALES
+                </td>
+                <td class="titulo" align="right">
+                    <h:panelGroup layout="block" rendered="#{basalesBean.codigo ne ''}"  styleClass="codigoInfo">
+                        Código: #{basalesBean.codigo}&nbsp;
+                    </h:panelGroup>
+                </td>
+                </tr><tr>
+                <td width="110px">
+                    CLAS. CDC L
+                </td>
+                <td>
+                    
+                    <p:inputText value="#{basalesBean.clasificacionL}" tabindex="" size="1" styleClass="clasificacionLEnfermedad inputs" />
+                </td>
+                <td>
+                    CLAS. CDC N
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.clasificacionN}" tabindex="" size="1" styleClass="clasificacionNEnfermedad inputs"/>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    CD4
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.cd4}" tabindex="" styleClass="esNumerico cd4Clasificacion inputs" />
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.CD4Fecha}" tabindex="" styleClass="calendar2 inputs" type="date" />
+                </td>
+                <td>
+                    % CD4
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.pcd4}" tabindex="" size="4" class="inputs"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    CV
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.cv}" tabindex="" styleClass="esNumerico calcLogaritmo inputs" />
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.CVFecha}" tabindex="" styleClass="calendar2 inputs" type="date"  size="10" /></td>
+                <td>
+                    LOGARITMO
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.logaritmo}" styleClass="basalLogaritmo inputs"  />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    HLA-B5701
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.hla}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    PPD
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.ppd}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                         <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.ppdFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+                <td>
+                    TRATAMIENTO
+                </td>
+                <td>
+                    
+                    <h:selectOneMenu value="#{basalesBean.ppdTratamiento}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="S" itemLabel="SI" />
+                        <f:selectItem itemValue="N" itemLabel="NO" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+             <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                    </td>
+                <td>
+                    RX TORAX
+                </td>
+                <td>
+                    
+                    <h:selectOneMenu value="#{basalesBean.rxTorax}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="S" itemLabel="SI" />
+                        <f:selectItem itemValue="N" itemLabel="NO" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    HBsAg
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.hbsa}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.hbsaFecha}" styleClass="calendar2 inputs" type="date" size="10" /></td>
+                <td>
+                    EXAMEN ORINA
+                </td>
+                <td>
+                 <h:selectOneMenu value="#{basalesBean.examenOrina}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="S" itemLabel="SI" />
+                        <f:selectItem itemValue="N" itemLabel="NO" />
+                    </h:selectOneMenu>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    VHC
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.vhc}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                         <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.vhcFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+                <td>
+                    PESO (KILOS)
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.peso}" tabindex="" size="10" styleClass="peso inputs" />
+                </td>
+                <td>
+                    TALLA (METROS)
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.talla}" tabindex="" size="10" styleClass="altura inputs" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    TOXOPLASMOSIS
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.toxoplasmosis}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.toxoFecha}" tabindex="" styleClass="calendar2 inputs" type="date"  size="10" /></td>
+                <td>
+                    IMC
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.imc}" tabindex="" size="10" styleClass="imc inputs" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    VDRL
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.vdrl}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.vdrlFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+            </tr>
+            <tr>
+                <td>
+                    CHAGAS
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.chagas}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                        <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                        <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                        <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.chagasFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+            </tr>
+            <tr>
+                <td>
+                    PAP
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.pap}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="NO" itemLabel="NORMAL" />
+                        <f:selectItem itemValue="AS" itemLabel="ANORMAL SIN ATIPIAS" />
+                        <f:selectItem itemValue="NC" itemLabel="ANORMAL ATIPIAS Y CÁNCER" />
+                        <f:selectItem itemValue="SN" itemLabel="SOLICITADO NO DISPONIBLE" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                        <f:selectItem itemValue="NR" itemLabel="NO REALIZADO" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.papFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+                <td>
+                    SIGES
+                </td>
+                <td>
+                  <h:selectOneMenu value="#{basalesBean.siges}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="S" itemLabel="SI" />
+                        <f:selectItem itemValue="N" itemLabel="NO" />
+                    </h:selectOneMenu>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" class="titulo">
+                    ENFERMEDADES BASALES
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ENF INIC1
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.enfermedad1ID}" styleClass="enfermedadClasificacion inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.enfermedadCode}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.enf1Fecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+                <td>
+                    ENF INIC2
+                </td>
+                <td>
+                     <h:selectOneMenu value="#{basalesBean.enfermedad2ID}" class="inputs">
+                         <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.enfermedadCode}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.enf2Fecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+            </tr>
+            <tr>
+                <td>
+                    ENF INIC3
+                </td>
+                <td>
+                     <h:selectOneMenu value="#{basalesBean.enfermedad3ID}" class="inputs">
+                         <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.enfermedadCode}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.enf3Fecha}" tabindex="" styleClass="calendar2 inputs" type="date"  size="10" /></td>
+                <td>
+                    ENF INIC4
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.enfermedad4ID}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.enfermedadCode}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.enf4Fecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" /></td>
+            </tr>
+            <!-- Modificacion 31/12
+            9.- En la pantalla datos basales, subir de ubicación antes del diagnostico GTP, GOT  (antes de hipertensión).
+            -->
+            <tr>
+                <td colspan="7" class="titulo" height="10px">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" class="titulo">
+                    HIPERTENSIÓN ARTERIAL
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    DIAGNOSTICO
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.hiperDiag}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="SC" itemLabel="SÍ, CON FÁRMACOS" />
+                        <f:selectItem itemValue="SS" itemLabel="SÍ, SIN FÁRMACOS" />
+                        <f:selectItem itemValue="NO" itemLabel="NO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.hiperFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" />   
+                </td>
+                <td>
+                    PRES. SISTÓLICA
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.PSist}" class="inputs esNumerico" />
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+            	<td></td>
+                <td></td>
+                <td></td>
+                <td>PRES. DIASTÓLICA</td>
+                <td><p:inputText value="#{basalesBean.PDias}" class="inputs esNumerico" /></td>
+            </tr>            
+            <tr>
+                </tr><tr>
+                    <td colspan="7" class="titulo">
+                        DISLIPIDEMIAS
+                    </td>
+                </tr>
+            
+            <tr>
+                <td>
+                    DIAGNOSTICO
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.disliDiag}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="SC" itemLabel="SÍ, CON FÁRMACOS" />
+                        <f:selectItem itemValue="SS" itemLabel="SÍ, SIN FÁRMACOS" />
+                        <f:selectItem itemValue="NO" itemLabel="NO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.disliFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" />
+                </td>
+                <td>
+                    COLEST TOTAL
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.colesTotal}" class="inputs esNumerico" />
+                </td>
+               
+                <td>
+                    COLEST HDL
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.colesHdl}" class="inputs esNumerico" />
+                </td>
+            </tr>
+            <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+             <td>
+                    COLEST LDL
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.colesLdl}" class="inputs esNumerico" />
+                </td>
+                <td>
+                    TRIGLICERIDOS
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.trigi}" class="inputs esNumerico" />
+                </td>
+            </tr>
+            <tr>
+                </tr><tr>
+                    <td colspan="7" class="titulo">
+                        GLICEMIA Y DIABETES
+                    </td>
+                </tr>
+            
+            <tr>
+                <td>
+                    DIAGNOSTICO
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.gliceDiag}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="SC" itemLabel="SÍ, CON FÁRMACOS" />
+                        <f:selectItem itemValue="SS" itemLabel="SÍ, SIN FÁRMACOS" />
+                        <f:selectItem itemValue="NO" itemLabel="NO" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.gliceFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" />
+                </td>
+                <td>
+                    GLICEMIA
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.glice}" class="inputs esNumerico" />
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" class="titulo">
+                    HEMATOCRITO Y TRANSAMINASAS
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    HEMATOCRITO
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.hematocrito}" class="inputs esNumerico" />
+                </td>
+                <td>
+                    <p:inputText value="#{basalesBean.hemaFecha}" tabindex="" styleClass="calendar2 inputs" type="date" size="10" />    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                   
+                </td>
+            </tr>
+            <tr>
+                
+                <td>
+                    GPT
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.gpt}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="NO" itemLabel="NORMAL" />
+                        <f:selectItem itemValue="l2X" itemLabel="&lt;2X" />
+                        <f:selectItem itemValue="l3X" itemLabel="&lt;3X" />
+                        <f:selectItem itemValue="l5X" itemLabel="&lt;5X" />
+                        <f:selectItem itemValue="l10X" itemLabel="&lt;10X" />
+                        <f:selectItem itemValue="g10X" itemLabel="&gt;10X" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    GOT
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{basalesBean.got}" class="inputs">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="NO" itemLabel="NORMAL" />
+                        <f:selectItem itemValue="l2X" itemLabel="&lt;2X" />
+                        <f:selectItem itemValue="l3X" itemLabel="&lt;3X" />
+                        <f:selectItem itemValue="l5X" itemLabel="&lt;5X" />
+                        <f:selectItem itemValue="l10X" itemLabel="&lt;10X" />
+                        <f:selectItem itemValue="g10X" itemLabel="&gt;10X" />
+                        <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" class="titulo">
+                    OBSERVACIONES
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" align="center">    
+                    <h:inputTextarea value="#{basalesBean.observaciones}" style="width: 99%; height: 50px;" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" align="center">    
+                </td>
+            </tr>
+             <tr>
+                <td colspan="4" class="titulo" align="left">
+                        <p:commandButton action="#{basalesBean.generarFicha}" value="Ficha Datos Basales" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                        <!--<input type="button" name="button" id="button" value="Ficha Completa" />-->
+                </td>
+                    <td colspan="3" class="titulo" align="right">
+                        <p:commandButton action="#{basalesBean.guardarBasales}" value="Aceptar" type="submit" ajax="false" class="guardarBasalesClick" />
+                    </td>
+                </tr>
+        </tbody></table>
+                    <div class="debug_log">Log: <h:outputText value="#{basalesBean.resultado}" escape="false" /></div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

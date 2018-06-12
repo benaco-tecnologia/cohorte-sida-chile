@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Controles Laboratorio</title>
+    </head>
+    <body>
+        <h3>Controles Laboratorio</h3>
+        <table border="1" cellspacing="0" cellpadding="3" width="100%">
+            <tr>
+                <th>Código</th>
+                <th>Centro</th>
+                <th>Tipo</th>
+                <th>Numero</th>
+                <th>Fecha</th>
+                <th>Diagnostico</th>
+                <th>Sistolica</th>
+                <th>Diastolica</th>
+                <th>ColesTotal</th>
+                <th>ColesLdh</th>
+                <th>ColesHdl</th>
+                <th>Trigli</th>
+                <th>Glice</th>
+                <th>Peso</th>
+                <th>Hematocrito</th>
+                <th>Gpt</th>
+                <th>Got</th>
+            </tr>
+            <tbody>
+                <ui:repeat var="item" value="#{exportarBean.Laboratorio()}">
+                    <tr>
+                        <td>#{(item[0]).toString().toUpperCase()}</td>
+                        <td>#{item[1]}</td>
+                        <td>#{exportarBean.TipoLaboratorio(item[2])}</td>
+                        <td>#{item[3]}</td>
+                        <td>#{item[4]}</td>
+                        <td>#{item[5]}</td>
+                        <td>#{item[6]}</td>
+                        <td>#{item[7]}</td>
+                        <td>#{item[8]}</td>
+                        <td>#{item[9]}</td>
+                        <td>#{item[10]}</td>
+                        <td>#{item[11]}</td>
+                        <td>#{item[12]}</td>
+                        <td>#{item[13]}</td>
+                        <td>#{item[14]}</td>
+                        <td>#{item[15]}</td>
+                        <td>#{item[16]}</td>
+                    </tr>
+                </ui:repeat>
+            </tbody>
+        </table>
+    </body>
+</html>

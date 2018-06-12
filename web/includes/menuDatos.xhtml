@@ -1,0 +1,22 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form>
+        <ul class="menuDatos">
+            <li><h:commandLink action="#{pacienteBean.seleccionarPaciente}" value="Datos Personales" style="-webkit-border-top-left-radius: 5px; border-top-left-radius: 5px;" /></li>
+            <li><h:commandLink action="#{basalesBean.cargarBasales}" value="Datos Basales" /></li>
+            <li><h:commandLink action="#{terapiaBean.cargarTerapias}" value="Terapias" /></li>
+            <li><h:commandLink action="#{controlesBean.cargarSeccionControles}" value="Controles CD4 y CV" /></li>
+            <li><h:commandLink action="#{laboratorioBean.cargarLaboratorio}" value="Controles Laboratorio" /></li>         
+            <li><h:commandLink action="#{seguimientoBean.cargarSeguimiento}" value="Seg. Dat. Clínicos" /></li>
+            <li><h:commandLink action="#{eventoBean.cargarSeccionEventos}" value="Eventos - Muerte" /></li>
+            <li><h:commandLink action="#{controlesBean.cargarSeccionTerapiaAgrupada}" value="Terapia Agrupada" /></li>           
+            <li><h:commandLink action="#{trasladoBean.cargarTraslado}" value="Traslado" style="-webkit-border-top-right-radius: 5px; border-top-right-radius: 5px;" /></li>           
+            <li style="display: none;"><h:commandLink action="#{pacienteBean.cargarSeccionObservacion}" rendered="false" value="Observaciones" style="-webkit-border-top-right-radius: 5px; border-top-right-radius: 5px;" /></li>
+        </ul>
+        <h:inputHidden value="#{pacienteBean.pacienteID}" />
+        <input type="hidden" name="pacienteIDH" value="#{pacienteBean.pacienteID}" />
+    </h:form>
+</ui:composition>

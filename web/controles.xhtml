@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Controles CD4 / CV</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Controles CD4 / CV Cargada");
+                        $(".guardarControlClick").unbind("click");
+                        $(".guardarControlClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".fecha").val()==""){
+                                alert("Debe ingresar una fecha.");
+                                $(".fecha").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar el control ingresado?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>                
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{controlesBean.controlID}" />
+                    <h:inputHidden value="#{controlesBean.pacienteID}" />
+                    <h:inputHidden value="#{controlesBean.codigo}" />
+                    <input type="hidden" class="ultimocd4" value="#{controlesBean.ultimocd4}" />
+                    <input type="hidden" class="ultimocv" value="#{controlesBean.ultimocv}" />
+                    
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                <td colspan="5" class="titulo">
+                    CONTROLES CD4 / CV
+                </td>
+                        <td class="titulo" align="right">   
+                        <h:panelGroup layout="block" rendered="#{controlesBean.codigo ne ''}" styleClass="codigoInfo">
+                            Código: #{controlesBean.codigo}&nbsp;
+                        </h:panelGroup>
+                        
+                        </td>
+                </tr>
+                    <tr>
+                    <td width="10%">
+                        Tipo de Control
+                    </td>
+                    <td width="15%">
+                        <h:panelGroup layout="block" rendered="#{controlesBean.controlID eq null}">
+                            <h:selectOneRadio value="#{controlesBean.tipo}">
+                                <f:selectItem itemValue="CD" itemLabel="CD4" />
+                                <f:selectItem itemValue="CV" itemLabel="CV" />
+                            </h:selectOneRadio>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{controlesBean.controlID ne null}">
+                            <h:selectOneRadio value="#{controlesBean.tipo}" disabled="true">
+                                <f:selectItem itemValue="CD" itemLabel="CD4" />
+                                <f:selectItem itemValue="CV" itemLabel="CV" />
+                            </h:selectOneRadio>
+                        </h:panelGroup>
+                    </td>
+                    <td width="5%">&nbsp;
+                        
+                    </td>
+                    <td>&nbsp;
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        N° Control
+                    </td>
+                    <td>
+                        <h:panelGroup layout="block" rendered="#{controlesBean.controlID eq null}">
+                            <p:inputText value="#{controlesBean.numeroControl}" tabindex="" required="false" class="numeroControl inputs"  />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{controlesBean.controlID ne null}">
+                            <p:inputText value="#{controlesBean.numeroControl}" tabindex="" disabled="true"  />
+                        </h:panelGroup>
+                    </td>
+                    <td>
+                        Fecha
+                    </td>
+                  <td>
+                      <p:inputText value="#{controlesBean.fecha}" tabindex="" styleClass="calendar0 inputs fecha" type="date" required="true" maxlength="10" />
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                        Resultado
+                    </td>
+                    <td>
+                        <p:inputText value="#{controlesBean.resultadoControl}" tabindex="" styleClass="esNumerico txtResultado inputs" required="false" />
+                    </td>
+                    <td>
+                        <span class="lblPorcentaje">% CD4</span><span class="lblLogaritmo">Logaritmo</span>
+                        
+                    </td>
+                  <td>
+                      <p:inputText value="#{controlesBean.PCD4}" tabindex="" required="false" styleClass="txtPorcentaje inputs" />
+                      <p:inputText value="#{controlesBean.logaritmo}" tabindex="" required="false" styleClass="txtLogaritmo inputs" />
+                    </td>
+                </tr>
+                    <tr>
+                             <td>
+                                 Observaciones
+                             </td>
+                             <td colspan="5">
+                                 <h:inputTextarea value="#{controlesBean.observaciones}" class="inputs" style="width: 600px; height: 50px;" />
+                             </td>
+                           </tr>
+                    <tr>
+                        <td colspan="3" class="titulo" align="left">
+                                <p:commandButton action="#{controlesBean.generarFicha}" value="Ficha Controles CD4 / CV" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                            </td>
+                    <td colspan="3" class="titulo" align="right">
+                        <p:commandButton action="#{controlesBean.guardarControl}" value="Aceptar" type="submit" ajax="false" class="guardarControlClick" />
+                    </td>
+                </tr>
+            </tbody></table>
+                    <div class="debug_log"> Log: <h:outputText value="#{controlesBean.resultado}" escape="false" /></div>
+                </h:form>
+                <p>&nbsp;</p>
+                <h:form>
+                    <h:panelGroup rendered="#{controlesBean.resultadosCD4.size() eq 0}" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                            <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                                <td align="center">No hay controles CD4 ingresados para el paciente #{controlesBean.codigo}</td>
+                            </tr>
+                        </table>
+                    </h:panelGroup>
+                    <p:dataTable rowIndexVar="rowIndex" id="tblcd4" value="#{controlesBean.resultadosCD4}" rendered="#{controlesBean.resultadosCD4.size() ne 0}" var="item" paginator="false" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <f:facet name="header">
+                            Controles CD4
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[3])}" />
+                        </p:column>
+                        <p:column headerText="Resultado">                        
+                            <h:outputText value="#{item[4]}" />
+                        </p:column> 
+                        <p:column headerText="%" width="100">
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                        <p:column headerText="Obs.">
+                            <h:outputText value="#{item[7]}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarControl" controlID="#{item[0].toString()}" pacienteID="#{controlesBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarControl" controlID="#{item[0].toString()}" pacienteID="#{controlesBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{controlesBean.resultadosCD4.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                    
+                    <h:panelGroup rendered="#{controlesBean.resultadosCV.size() eq 0}" style="width: 49%; float: right;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                            <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                                <td align="center">No hay controles CV ingresados para el paciente #{controlesBean.codigo}</td>
+                            </tr>
+                        </table>
+                    </h:panelGroup>
+                    <p:dataTable rowIndexVar="rowIndex" id="tblcv" value="#{controlesBean.resultadosCV}" rendered="#{controlesBean.resultadosCV.size() ne 0}" var="item" paginator="false" style="width: 49%; float: right;">
+                        <f:facet name="header">
+                            Controles CV
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                            <h:outputText value="#{controlesBean.util.fechaTabla(item[3])}" />
+                        </p:column>
+                        <p:column headerText="Resultado">                        
+                            <h:outputText value="#{item[4]}" />
+                        </p:column> 
+                        <p:column headerText="Logaritmo" width="100">
+                           <h:outputText value="#{item[5]}" />
+                        </p:column>
+                        <p:column headerText="Obs.">
+                            <h:outputText value="#{item[7]}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarControl" controlID="#{item[0].toString()}" pacienteID="#{controlesBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarControl" controlID="#{item[0].toString()}" pacienteID="#{controlesBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{controlesBean.resultadosCV.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                
+                
+                <h:form>
+                    <h:inputText value="#{controlesBean.controlID}" styleClass="eliminarControlVal" style="display: none;" />
+                    <h:inputText value="#{controlesBean.pacienteID}" styleClass="eliminarControlPac" style="display: none;" />
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="eliminarControlPac" style="display: none;" />
+                    <h:commandButton action="#{controlesBean.eliminarControl}" styleClass="eliminarControlBtn" style="display: none;" />
+                </h:form>
+                
+                <h:form>
+                    <h:inputText value="#{controlesBean.controlID}" styleClass="modificarControlVal" style="display: none;" />
+                    <h:inputText value="#{controlesBean.pacienteID}" styleClass="modificarControlPac" style="display: none;" />
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="modificarControlPac" style="display: none;" />
+                    <h:commandButton action="#{controlesBean.modificarControl}" styleClass="modificarControlBtn" style="display: none;" />
+                </h:form>
+                
+                
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

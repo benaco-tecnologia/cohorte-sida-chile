@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cohorte SIDA Chile - Datos Personales - #{pacienteBean.codigo}</title>
+        <script>
+            $(document).ready(function() {
+                $('button[type=submit]').click(function() {
+                    $(".btnFix").hide();
+                    $("#btnCargando").show();
+                    return true;
+                })
+            });
+        </script>
+    </h:head>
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Datos Personales</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Personales Cargada");
+                        $(".guardarPersonalesClick").unbind("click");
+                        $(".guardarPersonalesClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".dato_codigo").val()==""){
+                                alert("El codigo ingresado no es valido");
+                                $(".dato_codigo").focus();
+                                 $('body').css('opacity','1');
+                                return false;
+                            }
+                            if ($(".dato_centro").val()==""){
+                                alert("El centro ingresado no es valido");
+                                $(".dato_centro").focus();
+                                 $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar los datos ingresados?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <input type="hidden" name="pacienteIDH" value="#{pacienteBean.pacienteID}" />
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                        <tbody>
+                        <tr>
+                            <td colspan="3" class="titulo">
+                                DATOS PERSONALES
+                            </td>
+                            <td class="titulo" align="right">
+                                <h:panelGroup layout="block" rendered="#{pacienteBean.codigo ne ''}" styleClass="codigoInfo">
+                                    Código: #{pacienteBean.codigo}&nbsp;
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                            <tr class="no-hover">
+                        <td colspan="4">
+                            <br />
+                        </td>
+                    </tr>
+                        <tr>
+                            <td width="15%">
+                                CÓDIGO
+                            </td>
+                            <td width="25%">
+                                <p:inputText value="#{pacienteBean.codigo}" styleClass="inputs dato_codigo" tabindex="" />
+                            </td>
+                            <td width="15%">
+                                N° FICHA
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.ficha}" class="esNumerico inputs" tabindex=""></p:inputText>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                SEXO
+                            </td>
+                            <td>
+                                <h:selectOneMenu value="#{pacienteBean.sexoID}" class="inputs" tabindex="">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItem itemValue="2" itemLabel="MASCULINO" />
+                                    <f:selectItem itemValue="1" itemLabel="FEMENINO" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                RUT
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.rut}" tabindex="" maxlength="8" class="inputs" ></p:inputText>
+                                -
+                                <p:inputText value="#{pacienteBean.dv}" tabindex="" maxlength="1" size="1" class="inputs"></p:inputText>
+                            </td>
+                        </tr>
+                            <tr>
+                            <td width="13%">
+                                <!-- Modificacion solicitada 30/12-->
+                                ORIENTACIÓN SEXUAL
+                            </td>
+                                <td> <h:selectOneMenu value="#{pacienteBean.preferenciaSexualID}" class="inputs" tabindex="">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.preferenciaSexual}" />
+                                </h:selectOneMenu><br /></td>
+                                <td>
+                                IDENTIDAD DE GÉNERO
+                                <!--PREFERENCIA SEXUAL-->
+                            </td>
+                            <td>
+                               
+                                <h:selectOneMenu value="#{pacienteBean.identidadGeneroID}" class="inputs" tabindex="">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.identidadGenero}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                FACTOR DE RIESGO
+                            </td>
+                            <td>
+                                <h:selectOneMenu value="#{pacienteBean.factorRiesgoID}" class="inputs" tabindex="">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.factorRiesgo}" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <h:panelGroup layout="block" rendered="#{pacienteBean.logueado.esAdministrador()}">
+                                    CENTRO
+                                </h:panelGroup>
+                            </td>
+                            <td>
+                                <h:selectOneMenu value="#{pacienteBean.centroID}" rendered="#{!pacienteBean.logueado.esUsuario()}" class="inputs dato_centro">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.centro}" />
+                                </h:selectOneMenu>
+                                <!--<h:inputHidden value="#{pacienteBean.centroID}" class="dato_centro" rendered="#{pacienteBean.logueado.esUsuario()}" />-->
+                                <p:inputText value="#{pacienteBean.centroID}" tabindex="" style="display: none;" styleClass="dato_centro" rendered="#{pacienteBean.logueado.esUsuario()}"></p:inputText>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                FECHA CONFIRMACIÓN ISP
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.fechaISP}" tabindex="" styleClass="calendar2 inputs" type="date" maxlength="10" autocomplete="off">
+                                   
+                                </p:inputText>
+                                N°REG ISP: <p:inputText value="#{pacienteBean.registroISP}" tabindex="" class="inputs"></p:inputText>
+                            </td>
+                            <td>
+                                FECHA INGRESO CENTRO
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.fechaIngreso}" tabindex="" styleClass="calendar2 inputs" type="date" maxlength="10" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                CD4 INGRESO
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.cd4}" tabindex="" class="esNumerico inputs"></p:inputText>
+                            </td>
+                            <td>
+                                FECHA CD4 INGRESO
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.fechaCD4}" tabindex="" styleClass="calendar2 inputs" type="date"  maxlength="10">
+                                  
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                FECHA NOTIFICACIÓN ENO
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.fechaNotificacion}" tabindex="" styleClass="calendar2 inputs" type="date"  maxlength="10">
+                                   
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <!-- Modificacion solicitada 30/12-->
+                                FECHA FORMULARIO NOTIFICACIÓN CASO VIH/SIDA
+                                <!--
+                                FECHA ENCUESTA CASO VIH
+                                -->
+                            </td>
+                            <td>
+                                <p:inputText value="#{pacienteBean.fechaEncuesta}" tabindex="" styleClass="calendar2 inputs" type="date"  maxlength="10">
+                                    
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                USO ANTICONCEPTIVO
+                            </td>
+                            <td>
+                                <h:selectOneMenu value="#{pacienteBean.usoAnticonceptivoID}" class="inputs">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.usoAnticonceptivo}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                RAZÓN DEL TEST
+                            </td>
+                            <td colspan="3">
+                                <h:selectManyCheckbox value="#{pacienteBean.razones}">
+                                    <f:selectItems value="#{listBoxBean.razonTest}" />
+                                </h:selectManyCheckbox>
+                            </td>
+                        </tr>
+                            <tr class="no-hover">
+                        <td colspan="4">
+                            <br />
+                        </td>
+                    </tr>
+                        <tr>
+                            <td colspan="4" class="titulo">
+                                OTROS DATOS
+                            </td>
+                        </tr>
+                            <tr class="no-hover">
+                        <td colspan="4">
+                            <br />
+                        </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                NACIONALIDAD
+                            </td>
+                            <td><h:selectOneMenu value="#{pacienteBean.paisOrigenID}" class="inputs">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.paisOrigen}" />
+                                </h:selectOneMenu>
+                            </td>
+                            <td>
+                                <!--RUT-->
+                            </td>
+                            <td>
+                                <!--<p:inputText value="#{pacienteBean.rut}" tabindex="1" required="true" maxlength="8" class="inputs"></p:inputText>
+                                -
+                                <p:inputText value="#{pacienteBean.dv}" tabindex="1" required="true" maxlength="1" size="1" class="inputs"></p:inputText>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                COMUNA
+                            </td>
+                            <td>
+                                <h:selectOneMenu value="#{pacienteBean.comunaID}" class="inputs">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                    <f:selectItems value="#{listBoxBean.comuna}" />
+                                </h:selectOneMenu>
+                        </td>
+                        <td>
+                            HÁBITOS
+                        </td>
+                        <td>
+                            <h:selectManyCheckbox value="#{pacienteBean.habitos}">
+                                <f:selectItems value="#{listBoxBean.habito}" />
+                            </h:selectManyCheckbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            NIVEL EDUCACIONAL
+                        </td>
+                        <td>
+                            <h:selectOneMenu value="#{pacienteBean.nivelEducacionalID}" class="inputs">
+                                <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                <f:selectItems value="#{listBoxBean.nivelEducacional}" />
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            EMPLEO
+                        </td>
+                        <td>
+                            <h:selectOneMenu value="#{pacienteBean.empleoID}" class="inputs">
+                                <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                <f:selectItems value="#{listBoxBean.empleo}" />
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ETNIA
+                        </td>
+                        <td>
+                            <h:selectOneMenu value="#{pacienteBean.etniaID}" class="inputs">
+                                <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                <f:selectItems value="#{listBoxBean.etnia}" />
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            FECHA NACIMIENTO
+                        </td>
+                        <td>
+                            <p:inputText value="#{pacienteBean.fechaNacimiento}" tabindex="" styleClass="calendar2 inputs fecha_nacimiento" type="date" size="10"></p:inputText>
+                            <span style="margin-left: 78px;">EDAD: <input type="text" class="paciente_edad" style="width: 25px;" readonly="readonly" /></span>
+                        </td>
+                    </tr>
+                    <tr class="no-hover">
+                        <td colspan="4">
+                            <br />
+                        </td>
+                    </tr>
+                        <tr>
+                            <td colspan="2" class="titulo" align="left">
+                                <p:commandButton action="#{pacienteBean.generarFicha}" value="Ficha Datos Personales" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                                <p:commandButton action="#{fichaBean.generarFichaCompleta}" value="Ficha Completa" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                            </td>
+                            <td colspan="2" class="titulo" align="right">
+                                <p:commandButton action="#{pacienteBean.guardarPersonales}" value="Aceptar" type="submit" ajax="false" class="guardarPersonalesClick" />
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="debug_log">Log: <h:outputText value="#{pacienteBean.resultado}" escape="false" /></div>
+                </h:form>
+                
+                
+                
+                
+            </ui:define>
+        </ui:composition>
+        
+    </h:body>
+</html>
+

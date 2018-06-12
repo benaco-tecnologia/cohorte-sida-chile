@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <p>&nbsp;</p>
+        <h:form id="login_frm">
+                <h2>Login Please:</h2>
+                <table width="250" border="0" cellspacing="0" cellpadding="2">
+                  <tr>
+                      <td colspan="2">
+                            Incorrect Username or Password!!<br>
+                            <h:message for="username" styleClass="errorMsg"/><br>
+                            <h:message for="password" styleClass="errorMsg"/>
+                        </td>
+                  </tr>
+                  <tr>
+                    <td><h:outputText value="Username : "/></td>
+                    <td><h:inputText id="username" value="#{loginBean.username}" required="true" styleClass="input_text"/></td>
+                  </tr>
+                  <tr>
+                    <td><h:outputText value="Password : "/></td>
+                    <td><h:inputSecret id="password" value="#{loginBean.password}" required="true" styleClass="input_text"/></td>
+                  </tr>
+                  <tr>
+                      <td colspan="2" align="center">
+                          <h:commandButton action="#{loginBean.checkValidUser}" value="Login" type="submit"/></td>
+                  </tr>
+                </table>
+            </h:form>
+    </h:body>
+</html>

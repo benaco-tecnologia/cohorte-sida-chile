@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="content">
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{trasladoBean.pacienteID}" />
+                    <h:inputHidden value="#{trasladoBean.pacienteSeleccionado}" />
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3" style="border-left: 1px solid silver; border-right: 1px solid silver;">
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="titulo">Traslado de paciente</td>
+                            </tr>
+                            <tr class="no-hover">
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Código</td>
+                                <td><p:inputText value="#{trasladoBean.codigo}" /></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Centro Origen</td>
+                                <td>
+                                    <h:selectOneMenu value="#{trasladoBean.origenID}">
+                                        <f:selectItems value="#{listBoxBean.centro}" />
+                                    </h:selectOneMenu>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Centro Destino</td>
+                                <td>
+                                    <h:selectOneMenu value="#{trasladoBean.destinoID}">
+                                        <f:selectItem itemValue="" itemLabel="Seleccione Destino" />
+                                        <f:selectItems value="#{listBoxBean.centro}" />
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fecha Solicitud</td>
+                                <td>
+                                    <p:inputText value="#{trasladoBean.fechaTraslado}" type="date" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Comentarios</td>
+                                <td>
+                                    <p:inputTextarea value="#{trasladoBean.comentario}"></p:inputTextarea>
+                                </td>
+                            </tr>
+                            <tr class="no-hover">
+                                <td colspan="4">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="titulo" align="right">
+                                    <p:commandButton action="#{trasladoBean.solicitarTraslado}" value="Aceptar" type="submit" ajax="false" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="debug_log">Log: <h:outputText value="#{trasladoBean.resultado}" /></div>
+                </h:form>
+                <h:panelGroup rendered="#{trasladoBean.resultados.size() eq 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                       <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                           <td align="center">No hay traslados solicitados para el paciente</td>
+                       </tr>
+                    </table>
+                </h:panelGroup>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{trasladoBean.resultados}" rendered="#{trasladoBean.resultados.size() ne 0}" var="item" paginator="false">
+                        <f:facet name="header">
+                            Historial de Traslados
+                        </f:facet>
+                        <p:column headerText="Fecha Solicitud" width="80">
+                            <h:outputText value="#{terapiaBean.formatoDespliegueFecha(item[9])}" />
+                        </p:column>
+                        <p:column headerText="Origen">
+                            <h:outputText value="#{utilidadesBean.centro(item[7].toString())}" />
+                        </p:column>
+                        <p:column headerText="Destino">
+                            <h:outputText value="#{utilidadesBean.centro(item[8].toString())}" />
+                        </p:column>
+                        <p:column headerText="Solicita">
+                            <h:outputText value="#{utilidadesBean.usuario(item[2].toString())}" /><br />
+                            <i>#{item[5]}</i>
+                        </p:column>
+                        <p:column headerText="Autoriza">
+                            <h:outputText value="#{utilidadesBean.usuario(item[3].toString())}" /><br /> 
+                            <i>#{item[6]}</i>
+                        </p:column>
+                        <p:column headerText="Estado" width="90">
+                            <h:outputText value="PENDIENTE" rendered="#{item[6] eq null}" />
+                            <h:outputText value="ACEPTADO" rendered="#{item[6] ne null and item[6].toString() eq 'A'}" /> 
+                            <h:outputText value="RECHAZADO" rendered="#{item[6] ne null and item[6].toString() eq 'R'}" /> 
+                        </p:column>
+                        <p:column style="width:70px;text-align: center;" rendered="#{item[3] eq null}">
+                            <input type="button" class="eliminarTraslado" trasladoID="#{item[0].toString()}" pacienteID="#{item[1].toString()}" value="Eliminar" />
+                        </p:column>
+                        <p:column style="width:70px;text-align: center;" rendered="#{item[3] ne null}">
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{trasladoBean.resultados.size()} traslados para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                
+                <h:form>
+                    <h:inputText value="#{trasladoBean.trasladoID}" styleClass="eliminarTrasladoVal" style="display: none;" />
+                    <h:inputText value="#{trasladoBean.pacienteID}" styleClass="eliminarTrasladoPac" style="display: none;" />
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="eliminarTrasladoPac" style="display: none;" />
+                    <h:commandButton action="#{trasladoBean.eliminar}" styleClass="eliminarTrasladoBtn" style="display: none;" />
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

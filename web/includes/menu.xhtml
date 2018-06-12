@@ -1,0 +1,101 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form>
+        <ul id="nav">
+            <li><h:link value="Inicio" outcome="principal" /></li>
+            <li><a href="#">Paciente</a>
+                <ul>
+                    <li><h:commandLink action="#{pacienteBean.seleccionarPaciente}" value="Ingresar" /></li>
+                    <li class="no-movil"><h:link value="Buscar" outcome="busqueda" /></li>
+                </ul>
+            </li>
+            <li><h:link value="Búsqueda" outcome="busqueda" /></li>
+            
+            <!--
+            <li><h:link value="Gráficos" outcome="graficos" /></li>
+            -->
+            <h:form rendered="#{pacienteBean.logueado.esAdministrador()}">
+                <li><a href="#">Reportes</a>
+                    <ul>
+                        <li><a href="/Cohorte2/reporte_resumen_drogas.jsp">Drogas por Terapia</a></li>
+                        <li><a href="/Cohorte2/reporte_resumen_tar_zona.jsp">Pacientes por Zona</a></li>
+                        <li><a href="/Cohorte2/reporte_resumen_tar_servicio.jsp">Pacientes por Servicio</a></li>
+                        <li><a href="/Cohorte2/reporte_resumen_tar.jsp">Pacientes por Centro</a></li>
+                        <li><a href="/Cohorte2/reporte_resumen_tar_edad.jsp">Pacientes por Edad</a></li>
+                        <li><a href="/Cohorte2/reporte_resumen_tar_centro_edad.jsp">Pacientes por Centro/Edad</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Exportar</a>
+                    <ul>
+                        <li>
+                            <h:outputLink value="/Cohorte/personales_xls.jsp">
+                                <h:outputText value="Personales" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte/basales_xls.jsp">
+                                <h:outputText value="Basales" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte/terapias_xls.jsp">
+                                <h:outputText value="Terapias" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte/controles_xls.jsp">
+                                <h:outputText value="Controles" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte/laboratorios_xls.jsp">
+                                <h:outputText value="Laboratorios" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <!--
+                        <li>
+                            <h:outputLink value="http://cohorte2.salmonsoftware.cl/seguimientos.php">
+                                <h:outputText value="Seguimiento" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte/accesos_xls.jsp">
+                                <h:outputText value="Registro Accesos" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        -->
+                        <li>
+                            <h:outputLink value="/Cohorte/modificaciones_xls.jsp">
+                                <h:outputText value="Registro Modificaciones" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                        <li>
+                            <h:outputLink value="/Cohorte2/base_csv.jsp">
+                                <h:outputText value="Base CSV" />
+                                <f:param name="c" value="#{pacienteBean.centroID}" />
+                            </h:outputLink>
+                        </li>
+                    </ul>
+                </li>
+            </h:form>
+            <li>
+                <h:outputLink rendered="#{pacienteBean.logueado.esAdministrador()}" value="/Cohorte/Documentos/" target="_blank">
+                    <h:outputText value="Documentación" />
+                </h:outputLink>
+            </li>
+            <li style="display: none;"><h:link value="Administración" rendered="#{pacienteBean.logueado.esAdministrador()}" /></li>
+            <li class="no-movil"><h:link value="Salir" onclick="window.location='/Cohorte2/'; return false;" /></li>
+        </ul>
+    </h:form>
+</ui:composition>

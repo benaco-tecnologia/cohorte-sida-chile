@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Reporte Controles Agrupados por Centro</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="content">
+                <p>&nbsp;</p>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{reporteBean.resultados}" var="item" rendered="#{reporteBean.resultados.size() > 0}">
+                    <f:facet name="header">
+                        Controles Agrupados por Centro
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" headerText="#" width="15" />
+                            <p:column rowspan="2" headerText="Centro" />
+                            <p:column colspan="2" headerText="Masculino" styleClass="no-movil" width="140" />
+                            <p:column colspan="2" headerText="Femenino" styleClass="no-movil" width="140" />
+                            <p:column colspan="2" headerText="Total" width="120" />
+                        </p:row>
+                        <p:row>
+                            <p:column headerText="# CD4" styleClass="no-movil" />
+                            <p:column headerText="# CV" styleClass="no-movil" />
+                            <p:column headerText="# CD4" styleClass="no-movil" />
+                            <p:column headerText="# CV" styleClass="no-movil"  />
+                            <p:column headerText="# CD4" />
+                            <p:column headerText="# CV" />
+                        </p:row>
+                    </p:columnGroup>
+                        
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column styleClass="" footerText="" />    
+                            <p:column footerText="" />    
+                            <p:column footerText="#{reporteBean.tmcd4()}" styleClass="no-movil" />
+                            <p:column footerText="#{reporteBean.tmcv()}" styleClass="no-movil" />
+                            <p:column footerText="#{reporteBean.tfcd4()}" styleClass="no-movil" />
+                            <p:column footerText="#{reporteBean.tfcv()}" styleClass="no-movil" />
+                            <p:column footerText="#{reporteBean.ttcd4()}" />
+                            <p:column footerText="#{reporteBean.ttcv()}" />
+                        </p:row>
+                    </p:columnGroup>
+                        
+                    <p:column styleClass="datatable_td">
+                        #{rowIndex+1}
+                    </p:column>
+                    <p:column styleClass="datatable_td">
+                        <h:outputText value="#{item[1]}" />
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="no-movil">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mcd4(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.mcd4(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mcd4(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.mcd4(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="no-movil">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mcv(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.mcv(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mcv(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.mcv(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="no-movil">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.fcd4(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.fcd4(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.fcd4(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.fcd4(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="no-movil">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.fcv(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.fcv(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.fcv(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.fcv(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tcd4(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.tcd4(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tcd4(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.tcd4(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tcv(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.tcv(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tcv(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.tcv(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

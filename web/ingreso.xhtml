@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cohorte SIDA Chile - Ingreso</title>
+        <h:outputStylesheet name="cohorte.css" library="css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="user-scalable=yes" />
+        <!--[if lt IE 9]>
+            <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+        <h:outputScript library="scripts" name="jquery.js" target="head" />
+        <h:outputScript library="scripts" name="jquery-ui.js" target="head" />
+        <script>
+            $(document).ready(function() {
+                $('button[type=submit]').click(function() {
+                    $(".btnFix").hide();
+                    $("#btnCargando").show();
+                    return true;
+                })
+            });
+        </script>
+    </h:head>
+    <h:body>
+        <p>&nbsp;</p>
+        <h:form id="login_frm">
+            <div align="center">
+                <h:graphicImage library="images" name="logoCohorte.png" style="margin-top: 20px; margin-bottom: 20px;width: 180px;" styleClass="logo_movil" />
+            </div>
+            <h:panelGroup layout="block" styleClass="loginBox">
+                <h4 align="center" class="movil">Plataforma Cohorte SIDA Chile</h4>
+                <table width="250" border="0" cellspacing="0" cellpadding="5" align="center" class="table-movil-login">
+                    <tr class="no-hover">
+                        <td width="25%" align="right" class="td-movil-ocultar"><h:outputText value="Usuario"/></td>
+                        <td align="right"><p:inputText value="#{loginBean.login.nombreUsuario}" autocomplete="false" required="true" placeholder="Ingrese Usuario" styleClass="input_text" /></td>
+                  </tr>
+                  <tr class="no-hover">
+                    <td align="right" class="td-movil-ocultar"><h:outputText value="Contraseña"/></td>
+                    <td align="right"><p:password value="#{loginBean.login.contrasena}" required="true" autocomplete="false" placeholder="Ingrese Clave" styleClass="input_text" /></td>
+                  </tr>
+                  <tr class="no-hover">
+                      <td colspan="2" align="right">
+                          <p:commandButton action="#{loginBean.checkValidUser}" value="Ingresar" type="submit" ajax="false" styleClass="btn-movil btnFix" />
+                          <div id="btnCargando" style="display:none;">Validando Usuario...</div>
+                      </td>
+                  </tr>
+                </table>
+            </h:panelGroup>
+            
+                <h:panelGroup layout="block" styleClass="mensajeAlerta" rendered="#{loginBean.error}">
+                    #{loginBean.mensaje}
+                </h:panelGroup>
+            </h:form>
+    </h:body>
+</html>

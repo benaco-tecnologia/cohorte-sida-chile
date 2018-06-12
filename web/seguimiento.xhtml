@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Seguimientos</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Seguimiento Cargada");
+                        $(".guardarSeguimientoClick").unbind("click");
+                        $(".guardarSeguimientoClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".fecha").val()==""){
+                                alert("Debe ingresar una fecha.");
+                                $(".fecha").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar el seguimiento ingresado?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{seguimientoBean.pacienteID}" />
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{seguimientoBean.codigo}" />
+                    <h:inputHidden value="#{seguimientoBean.seguimientoID}" />
+                    <input type="hidden" class="ultimo_enfermedad_asociada" value="#{seguimientoBean.ultimo_enfermedad_asociada}" />
+                    <input type="hidden" class="ultimo_serologia" value="#{seguimientoBean.ultimo_serologia}" />
+                    <input type="hidden" class="ultimo_control_vhb" value="#{seguimientoBean.ultimo_control_vhb}" />
+                    <input type="hidden" class="ultimo_control_medico" value="#{seguimientoBean.ultimo_control_medico}" />
+                   <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                <td colspan="3" class="titulo">
+                    SEGUIMIENTO
+                </td>
+                        <td class="titulo" align="right">
+                        <h:panelGroup layout="block" rendered="#{seguimientoBean.codigo ne ''}" styleClass="codigoInfo">
+                            Código: #{seguimientoBean.codigo}&nbsp;
+                        </h:panelGroup>
+                        </td>
+                </tr>
+                     <tr>
+                    <td>
+                        TIPO
+                    </td>
+                    <td colspan="3">                        
+                        <h:panelGroup layout="block" rendered="#{seguimientoBean.seguimientoID eq null}">
+                            <h:selectOneRadio value="#{seguimientoBean.tipo}">
+                                <f:selectItem itemValue="EA" itemLabel="ENFERMEDADES ASOCIADAS" />
+                                <f:selectItem itemValue="SE" itemLabel="SEROLOGÍAS" />
+                                <f:selectItem itemValue="CO" itemLabel="CONTROL VHB" />
+                                <f:selectItem itemValue="CM" itemLabel="CONTROL MÉDICO" />
+                            </h:selectOneRadio>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{seguimientoBean.seguimientoID ne null}">
+                            <h:selectOneRadio value="#{seguimientoBean.tipo}" disabled="true">
+                                <f:selectItem itemValue="EA" itemLabel="ENFERMEDADES ASOCIADAS" />
+                                <f:selectItem itemValue="SE" itemLabel="SEROLOGÍAS" />
+                                <f:selectItem itemValue="CO" itemLabel="CONTROL VHB" />
+                                <f:selectItem itemValue="CM" itemLabel="CONTROL MÉDICO" />
+                            </h:selectOneRadio>
+                        </h:panelGroup>
+                    </td>
+                </tr>
+                    
+                    <tr>
+                    <td width="8%">
+                        N°CONTROL
+                    </td>
+                    <td width="13%">
+                        <h:panelGroup layout="block" rendered="#{seguimientoBean.seguimientoID eq null}">
+                            <p:inputText value="#{seguimientoBean.numeroControl}" tabindex="" required="false" class="numeroControl"  />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{seguimientoBean.seguimientoID ne null}">
+                            <p:inputText value="#{seguimientoBean.numeroControl}" tabindex="" required="false" readonly="true"   />
+                        </h:panelGroup>
+                    </td>
+                    <td width="8%">
+                        FECHA
+                    </td>
+                  <td>
+                        <p:inputText value="#{seguimientoBean.fecha}" tabindex="" styleClass="calendar2 fecha" type="date" required="true" maxlength="10" />
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                    <tr>
+                    <td class="EA SE CO" valign="top">
+                        <span id="lblItem3">TRATAMIENTO</span>
+                    </td>
+                    <td class="EA SE CO" valign="top">
+                        <h:selectOneMenu value="#{seguimientoBean.tratamiento}">
+                            <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                            <f:selectItem itemValue="S" itemLabel="SI" />
+                            <f:selectItem itemValue="N" itemLabel="NO" />
+                        </h:selectOneMenu>
+                    </td>
+                    <td  class="EA"  valign="top">
+                        <span id="lblItem4">ENFERMEDAD</span>
+                    </td>
+                    <td  class="EA" valign="top">
+                        <h:selectOneMenu value="#{seguimientoBean.patologiaID}">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.enfermedad}" />
+                    </h:selectOneMenu>
+                    </td>
+                        <td  class="SE" valign="top">
+                        <span id="lblItem4">EXÁMEN</span>
+                    </td>
+                    <td class="SE" valign="top">
+                         <h:selectOneMenu value="#{seguimientoBean.examen}">
+                            <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                            <f:selectItem itemValue="VH" itemLabel="VHC" />
+                            <f:selectItem itemValue="VD" itemLabel="VDRL" />
+                            <f:selectItem itemValue="CH" itemLabel="CHAGAS" />    
+                            <f:selectItem itemValue="PA" itemLabel="PAP" />
+                            <f:selectItem itemValue="HB" itemLabel="HBSAG" />
+                        </h:selectOneMenu>
+                    </td>
+                        <td  class="CO" valign="top">
+                        <span id="lblItem4">ANTÍGENO E</span>
+                    </td>
+                    <td class="CO" valign="top">
+                        <h:selectOneMenu value="#{seguimientoBean.antigeno}">
+                            <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                            <f:selectItem itemValue="P" itemLabel="POSITIVO" />
+                            <f:selectItem itemValue="N" itemLabel="NEGATIVO" />
+                        </h:selectOneMenu>
+                        
+                    </td>
+                </tr>
+                    
+                    
+                    <tr class="CO">
+                    <td>
+                        <span id="lblItem1">CV HEPATITIS</span>
+                    </td>
+                    <td>
+                        <p:inputText value="#{seguimientoBean.CVHepatitis}" tabindex="" required="false" maxlength="10" />
+                    </td>
+                </tr>
+                    
+                    <tr class="CM">
+                    <td valign="top">
+                        <span id="lblItem3">FECHA</span>
+                    </td>
+                    <td valign="top">
+                        
+                        <div id="pnlFechaControlMedico">
+		
+                             <p:inputText value="#{seguimientoBean.fechaControl}" tabindex="" styleClass="calendar2" type="date" required="false" maxlength="10" />
+                        
+	</div>
+                    </td>
+                    <td valign="top">
+                        <span id="lblItem4">OBSERVACIÓN</span>
+                    </td>
+                    <td valign="top">
+                        <h:inputTextarea value="#{seguimientoBean.observaciones}" class="inputs" style="width: 600px; height: 50px;" />
+                    </td>
+                </tr>
+                     <tr>
+                         <td colspan="3" class="titulo" align="left">
+                                <!--<input type="button" name="button" id="button" value="Ficha Seguimiento" />
+                                <input type="button" name="button" id="button" value="Ficha Completa" />-->
+                            </td>
+                    <td colspan="3" class="titulo" align="right">
+                        <p:commandButton action="#{seguimientoBean.guardarSeguimiento}" value="Aceptar" type="submit" class="guardarSeguimientoClick" ajax="false" />
+                    </td>
+                </tr>
+            </tbody></table>
+                    Log: <h:outputText value="#{seguimientoBean.resultado}" escape="false" />
+                </h:form>
+                
+                
+                <p>&nbsp;</p>
+                <h:form>
+                    <h:panelGroup rendered="#{seguimientoBean.resultados1.size() eq 0}" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Enfermedades Asociadas</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                    <p:dataTable rowIndexVar="rowIndex" id="tblcd1" value="#{seguimientoBean.resultados1}" rendered="#{seguimientoBean.resultados1.size() ne 0}" var="item" paginator="false" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <f:facet name="header">
+                            Enfermedades Asociadas
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[6])}" />
+                        </p:column>
+                        <p:column headerText="Tratamiento">                        
+                            <h:outputText value="NO" rendered="#{item[7].toString() eq 'N'}" />
+                            <h:outputText value="SI" rendered="#{item[7].toString() eq 'S'}" />
+                            <h:outputText value="SIN DATOS" rendered="#{item[7] eq null or item[7].toString() eq ''}" />
+                        </p:column> 
+                        <p:column headerText="Enfermedad">                        
+                            <h:outputText value="#{listBoxBean.patologia(item[2].toString())}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{seguimientoBean.resultados1.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                    
+                        <h:panelGroup rendered="#{seguimientoBean.resultados2.size() eq 0}" style="width: 49%; float: right;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Serologías</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                        <p:dataTable rowIndexVar="rowIndex" id="tblcd2" value="#{seguimientoBean.resultados2}" rendered="#{seguimientoBean.resultados2.size() ne 0}" var="item" paginator="false" style="width: 49%; float: right;">
+                        <f:facet name="header">
+                            Serologías
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[6])}" />
+                        </p:column>
+                        <p:column headerText="Tratamiento">                        
+                            <h:outputText value="NO" rendered="#{item[7].toString() eq 'N'}" />
+                            <h:outputText value="SI" rendered="#{item[7].toString() eq 'S'}" />
+                            <h:outputText value="SIN DATOS" rendered="#{item[7] eq null or item[7].toString() eq ''}" />
+                        </p:column> 
+                        <p:column headerText="Examen">                        
+                            <h:outputText value="#{listBoxBean.examen(item[4].toString())}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{seguimientoBean.resultados2.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                 <div style="clear: both; height: 20px;">&nbsp;</div>
+                 <h:form>
+                    <h:panelGroup rendered="#{seguimientoBean.resultados3.size() eq 0}" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles VHB</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                        <p:dataTable rowIndexVar="rowIndex" id="tblcd3" value="#{seguimientoBean.resultados3}" rendered="#{seguimientoBean.resultados3.size() ne 0}" var="item" paginator="false" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <f:facet name="header">
+                            Controles VHB
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[6])}" />
+                        </p:column>
+                        <p:column headerText="CV Hepatitis">                        
+                            <h:outputText value="#{item[8]}" />
+                        </p:column> 
+                            <p:column headerText="Tratamiento">                        
+                            <h:outputText value="NO" rendered="#{item[7].toString() eq 'N'}" />
+                            <h:outputText value="SI" rendered="#{item[7].toString() eq 'S'}" />
+                            <h:outputText value="SIN DATOS" rendered="#{item[7] eq null or item[7].toString() eq ''}" />
+                        </p:column> 
+                        <p:column headerText="Antígeno E">                        
+                            <h:outputText value="NEGATIVO" rendered="#{item[9].toString() eq 'N'}" />
+                            <h:outputText value="POSITIVO" rendered="#{item[9].toString() eq 'P'}" />
+                            <h:outputText value="SIN DATOS" rendered="#{item[9] eq null or item[9].toString() eq ''}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                           <input type="button" class="modificarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{seguimientoBean.resultados3.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                    
+                        <h:panelGroup rendered="#{seguimientoBean.resultados4.size() eq 0}" style="width: 49%; float: right;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles Médicos</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                        <p:dataTable rowIndexVar="rowIndex" id="tblcd4" value="#{seguimientoBean.resultados4}" rendered="#{seguimientoBean.resultados4.size() ne 0}" var="item" paginator="false" style="width: 49%; float: right;">
+                        <f:facet name="header">
+                            Serologías
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[6])}" />
+                        </p:column>
+                        <p:column headerText="Fecha Control">                        
+                            <h:outputText value="#{controlesBean.util.fechaTabla(item[10])}" />
+                        </p:column> 
+                        <p:column headerText="Observación">                        
+                            <h:outputText value="#{item[11]}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarSeguimiento" seguimientoID="#{item[0].toString()}" pacienteID="#{seguimientoBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{seguimientoBean.resultados4.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+                 
+                 <h:form>
+                    <h:inputText value="#{seguimientoBean.seguimientoID}" styleClass="eliminarSeguimientoVal" style="display: none;" />
+                    <h:inputText value="#{seguimientoBean.pacienteID}" styleClass="eliminarSeguimientoPac" style="display: none;" />
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="eliminarSeguimientoPac" style="display: none;" />
+                    <h:commandButton action="#{seguimientoBean.eliminar}" styleClass="eliminarSeguimientoBtn" style="display: none;" />
+                </h:form>
+
+                <h:form>
+                    <h:inputText value="#{seguimientoBean.seguimientoID}" styleClass="modificarSeguimientoVal" style="display: none;" />
+                    <h:inputText value="#{seguimientoBean.pacienteID}" styleClass="modificarSeguimientoPac" style="display: none;" />
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="modificarSeguimientoPac" style="display: none;" />
+                    <h:commandButton action="#{seguimientoBean.modificar}" styleClass="modificarSeguimientoBtn" style="display: none;" />
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"    
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>    
+    </h:head>
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Gráficos</title>
+                <script type='text/javascript' language="javascript">
+                    google.load('visualization', '1', {packages: ['corechart', 'bar','controls']});
+                    google.setOnLoadCallback(crearGraficos);
+                    function crearGraficos() {
+                        CasosPorAnoInicioTar();
+                        ZonaInicioTar();
+                        SexoEnTiempo();
+                        PromedioMedianaCD4();
+                        EtapaClinicaInicioTar();
+                        EdadMaximaMinimaMediana();
+                        Ppd();
+                        Vhc();
+                        Vdrl();
+                        HBsAg();
+                        Tox();
+                        Segmentacion();
+                        DistribucionGlobalSexo();
+                        DistribucionGenero();
+                        DistribucionRazonTest();
+                        DiasEspera();
+                        CasosPorPeriodoInicioTar();
+                        CasosValidos();
+                        DistribucionSerologias();
+                        PromedioMedianaCV();
+                        PacientesPorCentroyTar();
+                        PiePacientesCentroTar();
+                        PiePacientesCentroSinTar();
+                    }
+                    
+                    function CasosPorAnoInicioTar() {
+                          //var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
+                         /* var donutRangeSlider = new google.visualization.ControlWrapper({
+                            'controlType': 'NumberRangeFilter',
+                            'containerId': 'filter_div',
+                            'options': {
+                              'filterColumnLabel': 'Año'
+                            }
+                          });*/
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'Casos');
+                            //data.addColumn('string', 'Sexo');
+
+                            data.addRows([#{graficosBean.CasosPorAnoInicioTar()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN DE CASOS POR AÑO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              colors:['#1c7dfa'],
+                              //view: {'columns': [0, 1]}
+                            };
+
+                          var chart = new google.visualization.ColumnChart(document.getElementById('CasosPorAnoInicioTar'));
+                          chart.draw(data, options);
+                          
+                        /*  var columnChart = new google.visualization.ChartWrapper({
+                            'chartType': 'ColumnChart',
+                            'containerId': 'CasosPorAnoInicioTar',
+                            'options': options
+                          });*/
+                          
+                          
+                         // dashboard.bind(donutRangeSlider, columnChart);
+                          //dashboard.draw(data);
+                        }
+                        
+                        function CasosPorPeriodoInicioTar() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Período');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.CasosPorPeriodoInicioTar()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN DE CASOS POR PERÍODO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              colors:['#1c7dfa'],
+                            };
+
+                          var chart = new google.visualization.ColumnChart(document.getElementById('CasosPorPeriodoInicioTar'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function ZonaInicioTar() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Zona');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.ZonaInicioTar()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN POR ZONAS AL INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE','#E3EFFE'],
+                            };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('ZonaInicioTar'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function SexoEnTiempo() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'Femenino');
+                            data.addColumn('number', 'Masculino');
+                            //data.addColumn('number', 'ND');
+
+                            data.addRows([#{graficosBean.SexoEnTiempo()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN SEXO POR AÑO DE INICIO DE TAR, PACIENTES VÁLIDOS CON SEXO',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#7EB4FC', '#1c7dfa']
+                            };
+
+                          var chart = new google.visualization.ColumnChart(document.getElementById('SexoEnTiempo'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function PromedioMedianaCD4() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'Promedio');
+                            data.addColumn('number', 'Mediana');
+
+                            data.addRows([#{graficosBean.PromedioMedianaCD4()}]);
+
+                            var options = {
+                              title: 'PROMEDIO Y MEDIANA DE CD4 BASAL POR AÑO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#1c7dfa', '#7eb4fc'],
+                              pointSize: 15,
+                              series: {
+                                0: { pointShape: 'diamond' },
+                                1: { pointShape: 'square' }
+                              }
+                            };
+
+                          var chart = new google.visualization.LineChart(document.getElementById('PromedioMedianaCD4'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function PromedioMedianaCV() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'Promedio');
+                            data.addColumn('number', 'Mediana');
+
+                            data.addRows([#{graficosBean.PromedioMedianaCV()}]);
+
+                            var options = {
+                              title: 'PROMEDIO Y MEDIANA DE CV BASAL POR AÑO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#1c7dfa', '#7eb4fc'],
+                              pointSize: 15,
+                              series: {
+                                0: { pointShape: 'diamond' },
+                                1: { pointShape: 'square' }
+                              }
+                            };
+
+                          var chart = new google.visualization.LineChart(document.getElementById('PromedioMedianaCV'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function EtapaClinicaInicioTar() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'A');
+                            data.addColumn('number', 'B');
+                            data.addColumn('number', 'C');
+                            data.addColumn('number', 'ND');
+
+                            data.addRows([#{graficosBean.EtapaClinicaInicioTar()}]);
+
+                            var options = {
+                              title: ' ETAPA CLÍNICA AL AÑO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              isStacked: true,
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                            };
+
+                          var chart = new google.visualization.ColumnChart(document.getElementById('EtapaClinicaInicioTar'));
+                          chart.draw(data, options);
+                        }
+                        
+                         function EdadMaximaMinimaMediana() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Año');
+                            data.addColumn('number', 'Mínima');
+                            data.addColumn('number', 'Máxima');
+                            data.addColumn('number', 'Mediana');
+
+                            data.addRows([#{graficosBean.EdadMaximaMinimaMediana()}]);
+
+                            var options = {
+                              title: 'EDADES MÍNIMA, MÁXIMA y MEDIANA AL AÑO DE INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#1c7dfa', '#7eb4fc','#B2D2FD'],
+                              pointSize: 15,
+                              series: {
+                                0: { pointShape: 'diamond' },
+                                2: { pointShape: 'square' },
+                                1: { pointShape: 'triangle' }
+                              }
+                            };
+
+                          var chart = new google.visualization.LineChart(document.getElementById('EdadMaximaMinimaMediana'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function Ppd() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Resultados');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.Ppd()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN PPD EN CASOS CON REGISTRO',
+                              legend: { position: "bottom" },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE','#E3EFFE'],
+                          };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('Ppd'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function Vhc() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Resultados');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.Vhc()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN VHC EN CASOS CON REGISTRO',
+                              legend: { position: "bottom" },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('Vhc'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function Vdrl() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Resultados');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.Vdrl()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN VDRL EN CASOS CON REGISTRO',
+                              legend: { position: "bottom" },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('Vdrl'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function HBsAg() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Resultados');
+                            data.addColumn('number', 'Casos');
+
+                            data.addRows([#{graficosBean.HBsAg()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN HBsAg EN CASOS CON REGISTRO',
+                              legend: { position: "bottom" },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+
+                          var chart = new google.visualization.PieChart(document.getElementById('HBsAg'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function Tox() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Resultados');
+                            data.addColumn('number', 'Casos');
+                            data.addRows([#{graficosBean.Tox()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Tox EN CASOS CON REGISTRO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('Tox'));
+                          chart.draw(data, options);
+                        } 
+                        function Segmentacion() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Segmentación');
+                            data.addColumn('number', 'Casos');
+                            data.addRows([#{graficosBean.Segmentacion()}]);
+                            var options = {
+                              title: 'SEGMENTACIÓN EN CASOS AL INICIO DE TAR',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('Segmentacion'));
+                          chart.draw(data, options);
+                        }
+                         function DistribucionGlobalSexo() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Sexo');
+                            data.addColumn('number', 'Paciente');
+                            data.addRows([#{graficosBean.DistribucionGlobalSexo()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Sexo EN CASOS CON REGISTRO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7EB4FC']
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('DistribucionGlobalSexo'));
+                          chart.draw(data, options);
+                        } 
+                        function DistribucionGenero() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Género');
+                            data.addColumn('number', 'Paciente');
+                            data.addRows([#{graficosBean.DistribucionGenero()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Género EN CASOS CON REGISTRO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('DistribucionGenero'));
+                          chart.draw(data, options);
+                        } 
+                         function DistribucionRazonTest() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Razón Test');
+                            data.addColumn('number', 'Paciente');
+                            data.addRows([#{graficosBean.DistribucionRazonTest()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Razón Test EN CASOS CON REGISTRO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('DistribucionRazonTest'));
+                          chart.draw(data, options);
+                        } 
+                        function CasosValidos() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Caso');
+                            data.addColumn('number', 'Paciente');
+                            data.addRows([#{graficosBean.CasosValidos()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Casos Válidos',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7EB4FC']
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('CasosValidos'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function DistribucionSerologias() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Serologias');
+                            data.addColumn('number', 'Paciente');
+                            data.addRows([#{graficosBean.DistribucionSerologias()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN Serologías',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('DistribucionSerologias'));
+                          chart.draw(data, options);
+                        }
+                        function DiasEspera() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Períodos');
+                            data.addColumn('number', 'Promedio');
+                            data.addColumn('number', 'Mediana');
+
+                            data.addRows([#{graficosBean.DiasEspera()}]);
+
+                            var options = {
+                              title: 'PROMEDIO Y MEDIANA EN DÍAS DE FECHAS DE CONFIRMACIÓN DE ISP; INGRESO A CENTRO E INICIO DE TAR',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#1c7dfa', '#7eb4fc', '#109618'],
+                              pointSize: 15,
+                               series: {
+                                0: { pointShape: 'diamond' },
+                                1: { pointShape: 'square' }
+                              }
+                            };
+
+                          var chart = new google.visualization.LineChart(document.getElementById('DiasEspera'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function PacientesPorCentroyTar() {
+
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Establecimiento');
+                            data.addColumn('number', 'Con TAR');
+                            data.addColumn('number', 'Sin TAR');
+
+                            data.addRows([#{graficosBean.PacientesPorCentroyTar()}]);
+
+                            var options = {
+                              title: 'DISTRIBUCIÓN POR ESTABLECIMIENTO, PACIENTES CON TAR Y SIN TAR',
+                              legend: { position: "bottom" },
+                              bar: {groupWidth: "90%"},
+                              colors: ['#1c7dfa', '#7EB4FC', '#ff9900'],
+                            };
+
+                          var chart = new google.visualization.ColumnChart(document.getElementById('PacientesPorCentroyTar'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function PiePacientesCentroTar() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Establecimientos');
+                            data.addColumn('number', 'Pacientes');
+                            data.addRows([#{graficosBean.PiePacientesCentroTar()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN PACIENTES CON TAR POR ESTABLECIMIENTO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE','#E3EFFE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('PiePacientesCentroTar'));
+                          chart.draw(data, options);
+                        }
+                        
+                        function PiePacientesCentroSinTar() {
+                           var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Establecimientos');
+                            data.addColumn('number', 'Pacientes');
+                            data.addRows([#{graficosBean.PiePacientesCentroSinTar()}]);
+                            var options = {
+                              title: 'DISTRIBUCIÓN PACIENTES SIN TAR POR ESTABLECIMIENTO',
+                              legend: { position: "bottom", maxLines: 2 },
+                              pieSliceText: 'percentage',
+                              colors: ['#1c7dfa', '#7eb4fc', '#B2D2FD', '#D1E4FE','#E3EFFE'],
+                          };
+                          var chart = new google.visualization.PieChart(document.getElementById('PiePacientesCentroSinTar'));
+                          chart.draw(data, options);
+                        }
+               </script> 
+           </ui:define>
+            <ui:define name="content">
+                <h:form>
+                    <h:panelGroup rendered="#{!pacienteBean.logueado.esUsuario()}" class="boxFiltro" layout="block">
+                        Seleccione Establecimiento:  
+                        <h:selectOneMenu value="#{graficosBean.centroID}">
+                            <f:selectItem itemValue="0" itemLabel="TODOS" />
+                            <f:selectItems value="#{listBoxBean.centro}" />
+                         </h:selectOneMenu>
+                        <h:commandButton action="#{graficosBean.filtrar}" value="Aceptar" type="submit" />
+                    </h:panelGroup>
+                    
+                    <fieldset>
+                        <legend>Gráficos de Cohorte</legend>
+                        <div class="clear"></div>
+                            <div id="CasosPorAnoInicioTar" class="graficos_home"></div>
+                            <div id="CasosPorPeriodoInicioTar" class="graficos_home"></div>
+                            <div id="PacientesPorCentroyTar" class="graficos_home"></div>
+                            <div id="SexoEnTiempo" class="graficos_home"></div>
+                            <div id="PromedioMedianaCD4" class="graficos_home"></div>
+                            <div id="EtapaClinicaInicioTar" class="graficos_home"></div>
+                            <div id="PromedioMedianaCV" class="graficos_home"></div>
+                            <div id="EdadMaximaMinimaMediana" class="graficos_home"></div>
+                            <div id="DiasEspera" class="graficos_home"></div>
+                            <div style="clear: both;"></div>
+                            <div id="CasosValidos" class="graficos_home_mini"></div>
+                            <div id="PiePacientesCentroTar" class="graficos_home_mini"></div>
+                            <div id="PiePacientesCentroSinTar" class="graficos_home_mini"></div>
+                            <div id="ZonaInicioTar" class="graficos_home_mini"></div>
+                            <div id="Segmentacion" class="graficos_home_mini"></div>
+                            <div id="DistribucionSerologias" class="graficos_home_mini"></div>
+                            <div id="DistribucionGlobalSexo" class="graficos_home_mini"></div> 
+                            <div id="DistribucionGenero" class="graficos_home_mini"></div> 
+                            <div id="DistribucionRazonTest" class="graficos_home_mini"></div>
+                            <div id="Ppd" class="graficos_home_mini"></div>
+                            <div id="Vhc" class="graficos_home_mini"></div>
+                            <div id="Vdrl" class="graficos_home_mini"></div>
+                            <div id="HBsAg" class="graficos_home_mini"></div>
+                            <div id="Tox" class="graficos_home_mini"></div>
+                    </fieldset>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

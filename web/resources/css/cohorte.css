@@ -1,0 +1,384 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16-09-2014, 14:01:36
+    Author     : Daniel
+*/
+
+body {
+    font-size: .7em;
+    font-family: Segoe UI, Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+form.busqueda {
+    /*width: 400px; */
+   /* float: right;
+    position: relative;*/
+    /* clear: both; */
+   /* top: -28px;*/
+    
+    position: absolute;
+    /* clear: both; */
+    top: 5px;
+    right: 5px;
+}
+
+div.clear {
+    clear: both;
+}
+
+div.contenedor {
+    clear: both;
+    width: 800px;
+    margin: 0 auto;
+    border: 1px solid #7C7C7C; 
+}
+
+td.titulo {
+    background-color: silver;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #EEEEEE;
+}
+
+table.no-hover tr:hover {
+    background-color: white;
+}
+
+tr.no-hover:hover {
+    background-color: white;
+}
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="email"], input[type="number"], select, textarea {
+    background-color: #F2F2F2;
+    border: 1px solid #525252;
+    padding: 2px;
+    text-transform: uppercase;
+}
+
+input[type="text"]:hover, input[type="password"]:hover, input[type="tel"]:hover, input[type="email"]:hover, input[type="number"]:hover, select:hover, textarea:hover {
+    background-color: #FEFEFE;
+}
+
+span.lblLogartimo, input.txtLogartimo {
+    display: none;
+}
+
+div.boxFiltro {
+    width: 100%;
+    clear: both;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.busquedaPacienteID, .busquedaPacienteBtn {
+    display: none;
+}
+
+.mensajeAlerta {
+    width: 700px;
+    margin: 30px auto;
+    color: #9F6000;
+    background-color: #FEEFB3;
+    border: 1px solid;
+    padding:15px;
+    font-size: 1.2em;
+}
+
+#bottom {
+    background-color: #052C58;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    width: 100%;
+    text-align: right;
+    color: white;
+    letter-spacing: 1px;
+    z-index: 500;
+}
+
+.loginBox {
+    text-align: center;
+    width: 310px;
+    height: 105px;
+    border: 1px solid #999999;
+    margin: 20px auto;
+    font-size: 1.2em;
+    margin-bottom: 0;
+    padding: 20px;
+}
+
+a.ttip {
+  display: block;
+  cursor: pointer;
+  
+}
+
+a.ttip:hover {
+  position: relative;
+}
+
+a.ttip[data-title]:hover:after {
+  content: attr(data-title);
+  padding: 4px 8px;
+  color: #333;
+  position: absolute;
+  left: 60px;
+  top: -5px;
+  white-space: nowrap;
+  z-index: 5000 !important;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 0px 4px #222;
+  -webkit-box-shadow: 0px 0px 4px #222;
+  box-shadow: 0px 0px 4px #222;
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+}
+
+
+div.tooltip {
+    position: fixed;
+    z-index: 500;
+    width: 180px;
+    font-size: 11px;
+    background-color: white;
+    margin-left: 70px;
+    display: none;
+    padding: 5px;
+    border: 1px solid black;
+    text-align: left;
+    
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+}
+
+div.tooltip ul {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+div.tooltip ul li {
+    margin-left: 0;
+}
+
+div.codigoInfo {
+    letter-spacing: 1px;
+}
+
+.subterapia, .subterapia tr, .subterapia td {
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
+}
+
+.control_cd4, .control_cv {
+    cursor: pointer;
+}
+
+.datatable_td {
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+div.debug_log {
+    margin-top: 20px;
+    color: #cccccc;
+    border: 1px solid #cccccc;
+    padding: 5px;
+}
+
+.movil {
+    display: none;
+}
+
+.col-busqueda-acciones {
+    width: 125px;
+}
+
+.primera-columna, .segunda-columna, .tercera-columna {
+    width: 33%;
+    float: left;
+    min-width: 280px;
+}
+
+.tercera-columna {
+    text-align: center;
+}
+
+.lbl {
+    width: 60px;
+    margin-right: 10px;
+    float: left;
+}
+
+.lbl-2 {
+    width: 100px;
+    margin-right: 10px;
+    float: left;
+}
+
+.graficos_home {
+    height: 350px; 
+    width: 50%; 
+    float: left;
+}
+
+.graficos_home_mini {
+    height: 350px; 
+    width: 33.33333%; 
+    float: left;
+}
+
+/* Fix para despliegue movil */
+
+/* Despliegue vertical */
+@media all and (max-width: 376px) {
+    .logo_movil {
+        width: 30% !important;
+        height: 30% !important; 
+    }
+    
+    .no-movil {
+        display: none !important;
+    }
+    
+    .movil {
+        display: block;
+    }
+    
+    .graficos_home_mini, .graficos_home {
+        height: 350px; 
+        width: 100%; 
+        float: left;
+        clear: both;
+    }
+}
+
+/* Despliegue horizontal */
+@media all and (min-width: 377px) and (max-width: 1020px) {
+    .logo_movil {
+        width: 30% !important;
+        height: 30% !important;
+    }
+    
+    .no-movil {
+        display: none !important;
+    }
+    
+    .movil {
+        display: block;
+    }
+    
+    .graficos_home_mini, .graficos_home {
+        height: 350px; 
+        width: 100%; 
+        float: left;
+        clear: both;
+    }
+}
+
+/* Despliegue horizontal */
+@media all and (max-width: 1020px) {
+	body {
+		zoom: 2.5;
+	}
+	
+    .td-movil-ocultar {
+        width: 0;
+        display: none;
+    }
+    
+    .loginBox {
+        border: 0;
+        margin-top: 0;
+    }
+    
+    .table-movil-login {
+        width: 40%;
+    }
+    
+    .btn-movil {
+        width: 100%;
+    }
+    
+    .movil {
+        display: block;
+    }
+    
+    .lk-movil {
+        color: white;
+        float: left;
+    }
+    
+    #bottom {
+        padding: 10px 5px;
+        font-size: 12px;
+    }
+    
+    #bottom a {
+        text-decoration: none;
+    }
+    
+    #nav {
+        min-width: 250px !important;
+    }
+    
+    .col-busqueda-acciones {
+        width: 40px;
+    }
+    
+    .primera-columna, .segunda-columna, .tercera-columna {
+        width: 100%;
+        clear: both;
+        margin-bottom: 20px;
+    }
+}
+
+.jqplot-series-canvas {
+    /*background-color: white !important;*/
+}
+
+.resumen_header{
+    width: 100%;
+    height: 78px;
+    margin: 1% 0;
+    clear: both;
+}
+
+.caluga{
+    width: 16.55555%;
+    float: left;
+    height: 55px;
+    border: 1px solid #aaa;
+    text-align: center;
+    font-size:12px;
+    padding: 10px 0;
+    border-right: 0;
+}
+
+.caluga span{
+    font-size:22px;
+    font-weight: bold;
+    color:#1c7dfa;
+}

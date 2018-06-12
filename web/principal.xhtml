@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"    
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>    
+    </h:head>
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Inicio</title>
+           </ui:define>
+            <ui:define name="content">
+                <h:form>
+                    <!--
+                    <div class="resumen_header">
+                        <div class="caluga"><span>#{graficosBean.totalPacientes()}</span><br />Pacientes</div>
+                        <div class="caluga"><span>#{graficosBean.totalHombres()}</span><br />Hombres</div>
+                        <div class="caluga"><span>#{graficosBean.totalMujeres()}</span><br />Mujeres</div>
+                        <div class="caluga"><span>#{graficosBean.totalConTar()}</span><br />Pacientes con TAR</div>
+                        <div class="caluga"><span>#{graficosBean.totalConTarHombre()}</span><br />Hombres con TAR</div>
+                        <div class="caluga" style="border-right:1px solid  #aaa;"><span>#{graficosBean.totalConTarMujer()}</span><br />Mujeres con TAR</div>
+                    </div>
+                    -->
+                    <div class="clear"></div>
+                </h:form>
+                <div class="no-movil">
+                    <h:form>
+                        <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{trasladoBean.pendientes()}" rendered="#{trasladoBean.pendientes().size() ne 0 and !pacienteBean.logueado.esUsuario()}" var="item" paginator="false">
+                            <f:facet name="header">
+                                Traslados Pendientes
+                            </f:facet>
+                            <p:column headerText="Fecha Solicitud" width="80">
+                                <h:outputText value="#{terapiaBean.formatoDespliegueFecha(item[9])}" />
+                            </p:column>
+                            <p:column headerText="Paciente" width="120">
+                                <h:outputText value="#{utilidadesBean.codigo(item[1].toString())}" />
+                            </p:column>
+                            <p:column headerText="Origen">
+                                <h:outputText value="#{utilidadesBean.centro(item[7].toString())}" />
+                            </p:column>
+                            <p:column headerText="Destino">
+                                <h:outputText value="#{utilidadesBean.centro(item[8].toString())}" />
+                            </p:column>
+                            <p:column headerText="Solicita">
+                                <h:outputText value="#{utilidadesBean.usuario(item[2].toString())}" />
+                            </p:column>
+                            <p:column headerText="Comentario">
+                                <i>#{item[5]}</i>
+                            </p:column>
+                            <p:column headerText="Observaciones">
+                                <input type="text" style="width: 100%;" class="observacion_#{item[0]} ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+                            </p:column>
+                            <p:column width="140">
+                                <input type="button" class="aceptarTraslado" pacienteID="#{item[1].toString()}" destinoID="#{item[8].toString()}" trasladoID="#{item[0].toString()}" value="Aprobar" />
+                                <input type="button" class="rechazarTraslado" pacienteID="#{item[1].toString()}" destinoID="#{item[8].toString()}" trasladoID="#{item[0].toString()}" value="Rechazar" />
+                            </p:column>
+                            <f:facet name="footer">
+                                Hay #{trasladoBean.pendientes().size()} traslado(s) pendiente(s) en el sistema.
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form>
+                        <h:inputText value="#{trasladoBean.observacion}" styleClass="trasladoObs" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.trasladoID}" styleClass="trasladoVal" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.destinoID}" styleClass="trasladoDes" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.pacienteID}" styleClass="trasladoPac" style="display: none;" />
+                        <h:commandButton action="#{trasladoBean.rechazar}" styleClass="rechazarTrasladoBtn" style="display: none;" />
+                    </h:form>
+                    <h:form>
+                        <h:inputText value="#{trasladoBean.observacion}" styleClass="trasladoObs" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.trasladoID}" styleClass="trasladoVal" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.destinoID}" styleClass="trasladoDes" style="display: none;" />
+                        <h:inputText value="#{trasladoBean.pacienteID}" styleClass="trasladoPac" style="display: none;" />
+                        <h:commandButton action="#{trasladoBean.aceptar}" styleClass="aceptarTrasladoBtn" style="display: none;" />
+                    </h:form>
+                </div>
+                <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image">
+                    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
+                </p:dialog> 
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

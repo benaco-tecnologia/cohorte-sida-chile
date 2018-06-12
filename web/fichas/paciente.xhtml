@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Paciente #{pacienteBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+            size: auto;   /* auto is the initial value */ 
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+            <div>
+            <h2>Ficha Paciente #{pacienteBean.codigo}</h2>
+            <h3>Datos Personales</h3>
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="25%">Código</td>
+                  <td width="25%">
+                      <strong>
+                        <h:panelGroup layout="block" rendered="#{pacienteBean.codigo ne ''}">
+                          #{pacienteBean.codigo}
+                        </h:panelGroup>
+                          <h:panelGroup layout="block" rendered="#{pacienteBean.codigo eq ''}">
+                          SIN DATOS
+                          </h:panelGroup>
+                  </strong></td>
+                  <td width="25%" valign="top">Centro</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.centroID ne null}">
+                          #{utilidadesBean.centro(pacienteBean.centroID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.centroID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Sexo</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.sexoID ne null}">
+                          #{utilidadesBean.sexo(pacienteBean.sexoID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.sexoID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>N° Ficha</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.ficha ne null}">
+                          #{pacienteBean.ficha}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.ficha eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td valign="top">Factor de Riesgo</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.factorRiesgoID ne null}">
+                          #{utilidadesBean.factorRiesgo(pacienteBean.factorRiesgoID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.factorRiesgoID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">Perferencia Sexual</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.preferenciaSexualID ne null}">
+                          #{utilidadesBean.preferenciaSexual(pacienteBean.preferenciaSexualID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.preferenciaSexualID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Uso Anticonceptivo</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.usoAnticonceptivoID ne null}"> #{utilidadesBean.usoAnticonceptivo(pacienteBean.usoAnticonceptivoID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.usoAnticonceptivoID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Ingreso Centro</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaIngreso ne ''}">
+                          #{pacienteBean.fechaIngreso}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaIngreso eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td>N° Registro ISP</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.registroISP ne ''}">
+                          #{pacienteBean.registroISP}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.registroISP eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Confirmación ISP</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.fechaISP ne ''}"> #{pacienteBean.fechaISP} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.fechaISP eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td>CD4 Ingreso</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.cd4 ne null}">
+                          #{pacienteBean.cd4}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.cd4 eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha CD4 Ingreso</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaCD4 ne ''}">
+                          #{pacienteBean.fechaCD4}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaCD4 eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td>Fecha Notificación ENO</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaNotificacion ne ''}">
+                          #{pacienteBean.fechaNotificacion}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaNotificacion eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Encuesta Caso VIH</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaEncuesta ne ''}">
+                          #{pacienteBean.fechaEncuesta}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.fechaEncuesta eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                    <td width="25%" valign="top">Razón de Test</td>
+                    <td colspan="3"><strong>
+                        <h:outputText value="#{utilidadesBean.razon(pacienteBean.razones)}" escape="false" />
+                  </strong></td>
+                </tr>
+            </table>
+            <h3>Otros Datos</h3>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="25%" valign="top">Nacionalidad</td>
+                  <td width="25%"><strong>
+                          <h:panelGroup layout="block" rendered="#{pacienteBean.paisOrigenID ne null}"> #{utilidadesBean.paisOrigen(pacienteBean.paisOrigenID)} </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.paisOrigenID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td width="25%">Rut</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.rut ne ''}"> #{pacienteBean.rut}-#{pacienteBean.dv}</h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.rut eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Comuna</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.comunaID ne null}"> #{pacienteBean.comunaID} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.comunaID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">Hábitos</td>
+                  <td><strong>
+                    <h:outputText value="#{utilidadesBean.habito(pacienteBean.habitos)}" escape="false" />
+                </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td valign="top">Nivel Educacional</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.nivelEducacionalID ne null}"> #{utilidadesBean.nivelEducacional(pacienteBean.nivelEducacionalID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.nivelEducacionalID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">Empleo</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.empleoID ne null}"> #{utilidadesBean.empleo(pacienteBean.empleoID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.empleoID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Etnia</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.etniaID ne null}"> #{utilidadesBean.etnia(pacienteBean.etniaID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.etniaID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Nacimiento</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.fechaNacimiento ne ''}"> #{pacienteBean.fechaNacimiento} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.fechaNacimiento eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

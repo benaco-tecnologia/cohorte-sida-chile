@@ -1,0 +1,544 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>cohorte.LoginBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>pacienteBean</managed-bean-name>
+        <managed-bean-class>cohorte.PacienteBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>terapiaBean</managed-bean-name>
+        <managed-bean-class>cohorte.TerapiaBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>graficosBean</managed-bean-name>
+        <managed-bean-class>cohorte.GraficosBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <navigation-rule>
+        <description>Ingreso al sistema</description>
+        <from-view-id>/ingreso.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{loginBean.checkValidUser}</from-action>
+            <from-outcome>valido</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{loginBean.checkValidUser}</from-action>
+            <from-outcome>novalido</from-outcome>
+            <to-view-id>/ingreso.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Filtrado de Graficos</description>
+        <from-view-id>/principal.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{graficosBean.filtrar}</from-action>
+            <from-outcome>filtrado</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Aceptar Traslado</description>
+        <from-view-id>/principal.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{trasladoBean.aceptar}</from-action>
+            <from-outcome>aceptado</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Rechazar Traslado</description>
+        <from-view-id>/principal.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{trasladoBean.rechazar}</from-action>
+            <from-outcome>aceptado</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Eliminar Traslado</description>
+        <from-view-id>/traslado.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{trasladoBean.eliminar}</from-action>
+            <from-outcome>eliminado</from-outcome>
+            <to-view-id>/traslado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Generacion reporte agrupado por centro controles cd4 y cv</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{reporteBean.laboratorioAgrupadoCentro}</from-action>
+            <from-outcome>generado</from-outcome>
+            <to-view-id>/reporteControl.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Generacion reporte agrupado por centro terapias</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{reporteBean.terapiaAgrupadoCentro}</from-action>
+            <from-outcome>generado</from-outcome>
+            <to-view-id>/reporteTerapia.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Busqueda desde menu</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{busquedaBean.buscarMenu}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/busqueda.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Carga de datos paciente desde la busqueda</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.seleccionarPaciente}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/datosPersonales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar paciente en datos personales</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.guardarPersonales}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/datosPersonales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Datos basales</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{basalesBean.cargarBasales}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/datosBasales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar paciente en datos personales</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{basalesBean.guardarBasales}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/datosBasales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Terapias</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{terapiaBean.cargarTerapias}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/terapias.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Traslado</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{trasladoBean.cargarTraslado}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/traslado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Controles CD4/CV</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{controlesBean.cargarSeccionControles}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/controles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <description>Controles Laboratorio</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{laboratorioBean.cargarLaboratorio}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Eliminar Laboratorio</description>
+        <from-view-id>/laboratorio.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{laboratorioBean.eliminarLaboratorio}</from-action>
+            <from-outcome>eliminado</from-outcome>
+            <to-view-id>/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Cargar Laboratorio para Modificar</description>
+        <from-view-id>/laboratorio.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{laboratorioBean.modificarLaboratorio}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <!-- Seguimiento -->
+    <navigation-rule>
+        <description>Eliminar Seg.</description>
+        <from-view-id>/seguimiento.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{seguimientoBean.eliminar}</from-action>
+            <from-outcome>eliminado</from-outcome>
+            <to-view-id>/seguimiento.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Cargar Seg. para Modificar</description>
+        <from-view-id>/seguimiento.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{seguimientoBean.modificar}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/seguimiento.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <!-- Fin Seguimiento -->
+    
+    <navigation-rule>
+        <description>Terapia agrupada por controles y sus fechas</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{controlesBean.cargarSeccionTerapiaAgrupada}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/terapiaAgrupada.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Controles Laboratorio</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.cargarSeccionLaboratorios}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar Control Laboratorio</description>
+        <from-view-id>/laboratorio.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{laboratorioBean.guardarLaboratorio}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar Seguimiento</description>
+        <from-view-id>/seguimiento.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{seguimientoBean.guardarSeguimiento}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/seguimiento.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Seguimiento</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{seguimientoBean.cargarSeguimiento}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/seguimiento.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Eventos y Muerte</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{eventoBean.cargarSeccionEventos}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/eventos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Terapia Agrupada</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.cargarSeccionTerapiaAgrupada}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/terapiaAgrupada.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Observaciones</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.cargarSeccionObservacion}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/observaciones.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <description>Guardar Terapia</description>
+        <from-view-id>/terapias.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{terapiaBean.guardarTerapia}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/terapias.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <description>Eliminar Terapia</description>
+        <from-view-id>/terapias.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{terapiaBean.eliminarTerapia}</from-action>
+            <from-outcome>eliminado</from-outcome>
+            <to-view-id>/terapias.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Cargar Terapia para Modificar</description>
+        <from-view-id>/terapias.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{terapiaBean.modificarTerapia}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/terapias.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar Controles CD4 CV</description>
+        <from-view-id>/controles.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{controlesBean.guardarControl}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/controles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Eliminar control</description>
+        <from-view-id>/controles.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{controlBean.eliminarControl}</from-action>
+            <from-outcome>eliminado</from-outcome>
+            <to-view-id>/controles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Cargar Control para Modificar</description>
+        <from-view-id>/controles.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{controlBean.modificarControl}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/controles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar Evento</description>
+        <from-view-id>/eventos.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{eventoBean.guardarEvento}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/eventos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Guardar Muerte</description>
+        <from-view-id>/eventos.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{eventoBean.guardarMuerte}</from-action>
+            <from-outcome>guardado</from-outcome>
+            <to-view-id>/eventos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+    <navigation-rule>
+        <description>Trasladar</description>
+        <from-view-id>/traslado.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{trasladoBean.solicitarTraslado}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/traslado.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Personal</description>
+        <from-view-id>/datosPersonales.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{pacienteBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/datosPersonales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Basales</description>
+        <from-view-id>/datosBasales.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{basalesBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/datosBasales.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Terapias</description>
+        <from-view-id>/terapias.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{terapiaBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/terapias.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Terapias Agrupadas</description>
+        <from-view-id>/terapiaAgrupada.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{controlesBean.generarFichaAgrupada}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/terapiaAgrupada.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Controles</description>
+        <from-view-id>/controles.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{controlesBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/controles.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Eventos</description>
+        <from-view-id>/eventos.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{eventoBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/eventos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Laboratorio</description>
+        <from-view-id>/laboratorio.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{laboratorioBean.generarFicha}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/laboratorio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <description>Ver Ficha Completa</description>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-action>#{fichaBean.generarFichaCompleta}</from-action>
+            <from-outcome>encontrado</from-outcome>
+            <to-view-id>/fichas/ficha.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+
+    <managed-bean>
+        <managed-bean-name>controlesBean</managed-bean-name>
+        <managed-bean-class>cohorte.ControlesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <description>Bean que controla las funcionalidades de los eventos del paciente</description>
+        <managed-bean-name>eventoBean</managed-bean-name>
+        <managed-bean-class>cohorte.eventoBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <description>Controlador de los traslados de pacientes</description>
+        <managed-bean-name>trasladoBean</managed-bean-name>
+        <managed-bean-class>cohorte.TrasladoBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>basalesBean</managed-bean-name>
+        <managed-bean-class>cohorte.BasalesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>utilidadesBean</managed-bean-name>
+        <managed-bean-class>cohorte.UtilidadesBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>reporteBean</managed-bean-name>
+        <managed-bean-class>cohorte.ReporteBean</managed-bean-class>
+    
+        <managed-bean-scope>request</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>laboratorioBean</managed-bean-name>
+        <managed-bean-class>cohorte.LaboratorioBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>fichaBean</managed-bean-name>
+        <managed-bean-class>cohorte.FichaBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>seguimientoBean</managed-bean-name>
+        <managed-bean-class>cohorte.SeguimientoBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>exportarBean</managed-bean-name>
+        <managed-bean-class>cohorte.ExportarBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+</faces-config>

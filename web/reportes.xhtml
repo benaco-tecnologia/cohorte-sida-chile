@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="content">
+                <p>&nbsp;</p>
+                <h:form>
+                    <fieldset>
+                        <legend>Reporte de Ingresos</legend>
+                        <div class="primera-columna">
+                            <div class="lbl-2">Sexo</div>
+                                   <h:selectOneMenu value="#{busquedaBean.sexoID}">
+                                        <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                        <f:selectItems value="#{listBoxBean.sexo}" />
+                                </h:selectOneMenu>
+                            <br /><br />
+                            <div class="lbl-2">Factor de Riesgo</div>
+                                  <h:selectOneMenu  value="#{busquedaBean.factorRiesgoID}">
+                                      <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                    <f:selectItems value="#{listBoxBean.factorRiesgo}" />
+                              </h:selectOneMenu>
+                            <br /><br />
+                            <div class="lbl-2">Empleo</div>
+                                    <h:selectOneMenu value="#{busquedaBean.empleoID}">
+                                        <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                        <f:selectItems value="#{listBoxBean.empleo}" />
+                                    </h:selectOneMenu>
+                             <br /><br />
+                             <div class="lbl-2">Preferencia Sexual</div>
+                                  <h:selectOneMenu value="#{busquedaBean.preferenciaSexualID}">
+                                      <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                    <f:selectItems value="#{listBoxBean.preferenciaSexual}" />
+                              </h:selectOneMenu>
+                        </div>
+                        <div class="segunda-columna">
+                             <div class="lbl-2">Ingreso</div>
+                                <h:selectOneMenu value="#{busquedaBean.mesIngreso}">
+                                   <f:selectItems value="#{listBoxBean.meses}" />
+                                </h:selectOneMenu>&nbsp;
+                                <h:selectOneMenu value="#{busquedaBean.añoIngreso}">
+                                    <f:selectItems value="#{listBoxBean.años}" />
+                                </h:selectOneMenu>
+                             <br /><br />
+                             <div class="lbl-2">Nacimiento</div>
+                                 <h:selectOneMenu value="#{busquedaBean.mesNacimiento}">
+                                   <f:selectItems value="#{listBoxBean.meses}" />
+                              </h:selectOneMenu>&nbsp;
+                                 <h:selectOneMenu value="#{busquedaBean.añoNacimiento}">
+                                     <f:selectItems value="#{listBoxBean.años}" />
+                              </h:selectOneMenu>
+                             <br /><br />
+                             <div class="lbl-2">Uso Anticonceptivo</div>
+                                  <h:selectOneMenu value="#{busquedaBean.usoAnticonceptivoID}">
+                                      <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                    <f:selectItems value="#{listBoxBean.usoAnticonceptivo}" />
+                              </h:selectOneMenu>
+                             
+                             <h:panelGroup rendered="#{!busquedaBean.logueado.esUsuario()}">
+                                 <br /><br />    
+                                 <div class="lbl-2">Centro</div>
+                                  <h:selectOneMenu value="#{busquedaBean.centroID}">
+                                      <f:selectItem itemValue="0" itemLabel="AGRUPAR" />
+                                    <f:selectItems value="#{listBoxBean.centro}" />
+                              </h:selectOneMenu>
+                                       </h:panelGroup>
+                        </div>
+                        <div class="tercera-columna">
+                            <p:commandButton actionListener="#{busquedaBean.Reporte}" value="Generar" icon="ui-icon-search" ajax="false"></p:commandButton>
+                        </div>
+                    </fieldset>
+                </h:form>
+                <p>&nbsp;</p>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{busquedaBean.resultados}" var="item" rendered="#{busquedaBean.resultados.size() > 0}" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exportar}" paginator="false">
+                    <f:facet name="header">
+                        Resultados del filtro
+                    </f:facet>
+                    <f:facet name="{Exportar}">
+                        <p:commandButton value="Excel" ajax="false">
+                            <p:dataExporter type="xls" target="tbl" fileName="pacientes_cohorte" />
+                        </p:commandButton>
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="tbl" fileName="pacientes_cohorte"/>
+                        </p:commandButton>
+                    </f:facet>
+                        <p:column headerText="#" style="width:15px;" styleClass="datatable_td">
+                        #{rowIndex+1}
+                    </p:column>
+                        <p:column headerText="#{busquedaBean.columna1}" rendered="#{busquedaBean.isColumna1}" styleClass="datatable_td">
+                        <h:outputText value="#{item[0]}" />
+                    </p:column>
+                        <p:column headerText="#{busquedaBean.columna2}" rendered="#{busquedaBean.isColumna2}" styleClass="datatable_td">
+                        <h:outputText value="#{item[1]}" />
+                    </p:column>
+                         <p:column headerText="#{busquedaBean.columna3}" rendered="#{busquedaBean.isColumna3}" styleClass="datatable_td">
+                        <h:outputText value="#{item[2]}" />
+                    </p:column>
+                   <p:column headerText="#{busquedaBean.columna4}" rendered="#{busquedaBean.isColumna4}" styleClass="datatable_td">
+                        <h:outputText value="#{item[3]}" />
+                    </p:column>
+                    <p:column headerText="#{busquedaBean.columna5}" rendered="#{busquedaBean.isColumna5}" styleClass="datatable_td">
+                        <h:outputText value="#{item[4]}" />
+                    </p:column>
+                   <p:column headerText="#{busquedaBean.columna6}" rendered="#{busquedaBean.isColumna6}" styleClass="datatable_td">
+                        <h:outputText value="#{item[5]}" />
+                    </p:column>
+                    <p:column headerText="#{busquedaBean.columna7}" rendered="#{busquedaBean.isColumna7}" styleClass="datatable_td">
+                        <h:outputText value="#{item[6]}" />
+                    </p:column>
+                        <p:column headerText="#{busquedaBean.columna8}" rendered="#{busquedaBean.isColumna8}" styleClass="datatable_td">
+                        <h:outputText value="#{item[7]}" />
+                    </p:column>
+                    <f:facet name="footer">
+                        <!--Se encontraron #{busquedaBean.resultados.size()} pacientes-->
+                    </f:facet>
+                </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

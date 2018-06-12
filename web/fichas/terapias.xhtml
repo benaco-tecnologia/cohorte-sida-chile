@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Paciente #{basalesBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+            size: landscape;   /* auto is the initial value */ 
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+            white-space: nowrap;
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+        <div>
+        <h2>Ficha Paciente #{terapiaBean.codigo}</h2>
+        <h3>Terapias</h3>
+        <h:panelGroup rendered="#{terapiaBean.resultados.size() ne 0}">
+            <br />
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td>N° Tar</td>
+                    <td>Fecha</td>
+                    <td>Drogas</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>No Continua</td>
+                    <td>Causa Término</td>
+                    <td>Razón Toxicidad</td>
+                    <td>Término</td>
+                    <td>Geno</td>
+                    <td>Geno Fecha</td>
+                    <td>Geno Obs</td>
+                    <td>Trop. Viral R5</td>
+                    <td>Obs</td>
+                </tr>
+                <tbody>
+                    <ui:repeat var="item" value="#{terapiaBean.resultados}" varStatus="status">
+                        <h:panelGroup rendered="#{status.even}">
+                          <tr>
+                                <td align="right">#{item[1]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[2])}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 1, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 2, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 3, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 4, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 5, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 6, item[10].toString())}</td>
+                                <td>#{terapiaBean.noContinuaDespliegue(item[3])}</td>
+                                <td>#{terapiaBean.causaTermino(item[4])}</td>
+                                <td>#{terapiaBean.razonToxicidad(item[5])}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[6])}</td>
+                                <td align="center">#{item[7]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[8])}</td>
+                                <td>#{item[12]}</td>
+                                <td>#{terapiaBean.torpismoViral(item[9])}</td>
+                                <td>#{item[11]}</td>
+                          </tr>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{status.odd}">
+                          <tr style="background-color: #F2F2F2;">
+                                <td align="right">#{item[1]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[2])}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 1, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 2, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 3, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 4, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 5, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 6, item[10].toString())}</td>
+                                <td>#{terapiaBean.noContinuaDespliegue(item[3])}</td>
+                                <td>#{terapiaBean.causaTermino(item[4])}</td>
+                                <td>#{terapiaBean.razonToxicidad(item[5])}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[6])}</td>
+                                <td align="center">#{item[7]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[8])}</td>
+                                <td>#{item[12]}</td>
+                                <td>#{terapiaBean.torpismoViral(item[9])}</td>
+                                <td>#{item[11]}</td>
+                          </tr>
+                        </h:panelGroup>
+                    </ui:repeat>
+                </tbody>
+            </table>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{terapiaBean.resultados.size() eq 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td align="center">
+                        No hay terapias para mostrar
+                    </td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        </div>
+    </body>
+</html>

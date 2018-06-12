@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Busqueda</title>
+            </ui:define>
+            <ui:define name="content">
+                <p class="no-movil">&nbsp;</p>
+                <h:form>
+                    <fieldset>
+                        <legend>Parámetros de la búsqueda</legend>
+                        <div class="primera-columna">
+                            <div class="lbl">Rut</div> <h:inputText value="#{busquedaBean.rut}" maxlength="8" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+                            <br /><br />
+                            <div class="lbl">Código</div> <h:inputText value="#{busquedaBean.codigo}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+                        </div>
+                        <div class="segunda-columna">
+                            <div class="lbl">Ingreso</div>
+                              <h:selectOneMenu value="#{busquedaBean.mesIngreso}">
+                               <f:selectItems value="#{listBoxBean.meses}" />
+                            </h:selectOneMenu>&nbsp;
+                              <h:selectOneMenu value="#{busquedaBean.añoIngreso}">
+                                <f:selectItems value="#{listBoxBean.años}" />
+                            </h:selectOneMenu>
+                            <br /><br />
+                             <div class="lbl">Nacimiento</div> 
+                              <h:selectOneMenu value="#{busquedaBean.mesNacimiento}">
+                               <f:selectItems value="#{listBoxBean.meses}" />
+                            </h:selectOneMenu>&nbsp;
+                              <h:selectOneMenu value="#{busquedaBean.añoNacimiento}">
+                                <f:selectItems value="#{listBoxBean.años}" />
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="tercera-columna">
+                            <p:commandButton actionListener="#{busquedaBean.Buscar}" value="Buscar" icon="ui-icon-search" ajax="false"></p:commandButton>
+                        </div>
+                    </fieldset>
+                </h:form>
+                
+                <p>&nbsp;</p>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{busquedaBean.resultados}" var="item" rendered="#{busquedaBean.resultados.size() > 0}" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exportar}" paginator="false">
+                    <f:facet name="header">
+                        Resultados de la búsqueda
+                    </f:facet>
+                    <f:facet name="{Exportar}">
+                        <p:commandButton value="Excel" ajax="false">
+                            <p:dataExporter type="xls" target="tbl" fileName="pacientes_cohorte" />
+                        </p:commandButton>
+                        <p:commandButton value="PDF" ajax="false">
+                            <p:dataExporter type="pdf" target="tbl" fileName="pacientes_cohorte"/>
+                        </p:commandButton>
+                    </f:facet>
+                        
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" headerText="#" width="15" />
+                            <p:column rowspan="2" headerText="Código" width="90" />
+                            <p:column rowspan="2" headerText="Rut" width="60" />
+                            <p:column rowspan="2" headerText="Ingreso" width="60" />
+                            <p:column styleClass="no-movil" rowspan="2" headerText="Nacimiento" width="80" />
+                            <p:column styleClass="no-movil" rowspan="2" headerText="Centro" />
+                            <p:column styleClass="no-movil" colspan="2" headerText="Terapias" />
+                            <p:column styleClass="no-movil" colspan="2" headerText="Controles" width="160" />
+                            <p:column styleClass="no-movil" rowspan="2" headerText="Último Evento" width="150" />
+                            <p:column styleClass="no-movil" colspan="2" headerText="% Datos" width="150" />
+                            <p:column rowspan="2" styleClass="col-busqueda-acciones" />
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="no-movil" headerText="# Tar" width="50" />
+                            <p:column styleClass="no-movil" headerText="# Drogas" width="50" />
+                            <p:column styleClass="no-movil" headerText="# CD4" />
+                            <p:column styleClass="no-movil" headerText="# CV" />
+                            <p:column styleClass="no-movil" headerText="Personales" />
+                            <p:column styleClass="no-movil" headerText="Basales" />
+                        </p:row>
+                    </p:columnGroup>
+                        
+                    <p:column styleClass="datatable_td">
+                        #{rowIndex+1}
+                    </p:column>
+                    <p:column styleClass="datatable_td">
+                        <h:outputText value="#{item[1]}" />
+                    </p:column>
+                        <p:column styleClass="datatable_td">
+                        <h:outputText value="#{item[5]}-#{item[6]}" />
+                    </p:column>
+                         <p:column styleClass="datatable_td">
+                        <h:outputText value="#{busquedaBean.util.fechaTabla(item[2])}" />
+                    </p:column>
+                         <p:column styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.util.fechaTabla(item[3])}" />
+                    </p:column>
+                    <p:column styleClass="datatable_td no-movil">
+                        <h:outputText value="#{item[4]}" rendered="#{item[4] ne null}" />
+                        <h:outputText value="SIN DATOS" rendered="#{item[4] eq null}" />
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.cantidadTerapias(item[0])}" styleClass="datatable_td" />
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.cantidadDrogas(item[0])}" styleClass="datatable_td" />
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.cantidadCD4(item[0])}" />
+                    </p:column>
+                    <p:column style="text-align: center" styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.cantidadCV(item[0])}" />
+                    </p:column>
+                    <p:column styleClass="datatable_td no-movil">
+                        <h:outputText value="#{busquedaBean.ultimoEvento(item[0])}" />
+                    </p:column>
+                    <p:column style="text-align: center"  styleClass="datatable_td no-movil">
+                        <div id="p_#{rowIndex+1}" class="tooltip">
+                            <h:outputText value="#{busquedaBean.camposVaciosDatosPersonales(item[0])}" escape="false" />                            
+                        </div>
+                        <a tid="p_#{rowIndex+1}" class="ttip">
+                            <h:outputText value="#{busquedaBean.porcentajeDatosPersonales(item[0])}" />
+                        </a>
+                    </p:column>
+                    <p:column style="text-align: center"  styleClass="datatable_td no-movil">
+                        <div id="b_#{rowIndex+1}" class="tooltip">
+                            <h:outputText value="#{busquedaBean.camposVaciosDatosBasales(item[0])}" escape="false" />                            
+                        </div>
+                        <a tid="b_#{rowIndex+1}" class="ttip">
+                            <h:outputText value="#{busquedaBean.porcentajeDatosBasales(item[0])}" />
+                        </a>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <input type="button" class="seleccionarPaciente" pacienteID="#{item[0].toString()}" value="Ver" />
+                        <input type="button" class="trasladarPaciente no-movil" pacienteID="#{item[0].toString()}" value="Trasladar" />
+                    </p:column>
+                    <f:facet name="footer">
+                        Se encontraron #{busquedaBean.resultados.size()} pacientes
+                    </f:facet>
+                </p:dataTable>
+                </h:form>
+                
+                <h:form>
+                    <h:inputText value="#{pacienteBean.pacienteID}" styleClass="busquedaPacienteID" />
+                    <h:commandButton action="#{pacienteBean.seleccionarPaciente}" styleClass="busquedaPacienteBtn"  style="display: none;" />
+                </h:form>
+                
+                <h:form>
+                    <h:inputText value="#{trasladoBean.pacienteID}" styleClass="busquedaPacienteID" />
+                    <h:commandButton action="#{trasladoBean.cargarTraslado}" styleClass="trasladaPacienteBtn" style="display: none;" />
+                </h:form>
+                <div class="debug_log">Log: <h:outputText value="#{busquedaBean.codigoResultado}" escape="false" /></div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

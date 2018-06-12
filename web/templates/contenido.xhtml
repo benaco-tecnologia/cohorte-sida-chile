@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <!--<title>Cohorte</title>-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="user-scalable=yes" />
+        <h:outputStylesheet name="cohorte.css" library="css" />
+        <h:outputStylesheet name="menu.css" library="css" />
+        <h:outputStylesheet name="jquery-ui.min.css" library="css" />
+        <h:outputStylesheet name="jquery-ui.structure.min.css" library="css" />
+        <h:outputStylesheet name="jquery-ui.theme.min.css" library="css" />
+        <h:outputScript library="scripts" name="jquery.js" target="head" />
+        <h:outputScript library="scripts" name="jquery-ui.js" target="head" />
+        <h:outputScript library="scripts" name="despliegues.js" target="head" />
+        <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+        <!--[if lt IE 9]>
+            <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+        <ui:insert name="head"></ui:insert>
+    </h:head>
+    <h:body>
+        <div class="no-movil">
+            <h:graphicImage library="images" name="logoCohorte.png" style="width: 150px;" />
+            <div style="color:#052C58;position: absolute;top: 15px;left: 170px;font-size: 30px;">Sistema<br />Registro Electrónico<br />Cohorte SIDA</div>
+        </div>
+        <ui:include src="/includes/menu.xhtml" />
+        <ui:include src="/includes/busqueda.xhtml" />
+        <div id="top" class="top">
+            <ui:insert name="top"></ui:insert>
+        </div>
+        <div>
+        <div id="left">
+             <ui:insert name="left"></ui:insert>
+        </div>
+        <div id="content" class="left_content">
+             <ui:insert name="content"></ui:insert>
+        </div>
+        </div>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div id="bottom">
+            <a href="/Cohorte2/faces/ingreso.xhtml" class="movil lk-movil">Salir</a>
+            <h:outputText value="#{pacienteBean.logueado.nombre} " />
+            <h:outputText value="#{pacienteBean.logueado.apellido} " />
+            <h:outputText rendered="#{!pacienteBean.logueado.esUsuario()}" value="| TODOS" />
+            <h:outputText rendered="#{pacienteBean.logueado.esUsuario()}" value="| #{graficosBean.centroNombre}" />&nbsp;&nbsp;&nbsp;
+        </div>
+    </h:body>
+</html>
+

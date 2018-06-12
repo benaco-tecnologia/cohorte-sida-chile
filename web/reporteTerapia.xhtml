@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Reporte Terapias Agrupados por Centro</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="content">
+                <p>&nbsp;</p>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{reporteBean.resultados}" var="item" rendered="#{reporteBean.resultados.size() > 0}">
+                    <f:facet name="header">
+                        Resumen de Terapias
+                    </f:facet>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column rowspan="2" headerText="#" width="15" />
+                            <p:column rowspan="2" headerText="Centro" />
+                            <p:column colspan="2" headerText="Terapias" width="140" />
+                            <p:column rowspan="2" headerText="Total" width="30" />
+                        </p:row>
+                        <p:row>
+                            <p:column headerText="Masculino" />
+                            <p:column headerText="Femenimo" />
+                        </p:row>
+                    </p:columnGroup>
+                        
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column footerText="" />
+                            <p:column footerText="" />
+                            <p:column footerText="#{reporteBean.tmt()}" />
+                            <p:column footerText="#{reporteBean.tft()}" />
+                            <p:column footerText="#{reporteBean.ttt()}" />
+                        </p:row>
+                    </p:columnGroup>
+                        
+                    <p:column styleClass="datatable_td">
+                        #{rowIndex+1}
+                    </p:column>
+                        <p:column styleClass="datatable_td">
+                        <h:outputText value="#{item[1]}" />
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mt(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.mt(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.mt(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.mt(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.ft(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.ft(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.ft(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.ft(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tt(item[0]) eq '0'}">
+                            <h:outputText value="#{reporteBean.tt(item[0])}" style="color: #DDDDDD;" />
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{reporteBean.tt(item[0]) ne '0'}">
+                            <h:outputText value="#{reporteBean.tt(item[0])}" />
+                        </h:panelGroup>
+                    </p:column>
+                </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

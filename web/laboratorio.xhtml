@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Controles Laboratorio</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Controles Laboratorio Cargada");
+                        $(".guardarControlLaboratorioClick").unbind("click");
+                        $(".guardarControlLaboratorioClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".fecha").val()==""){
+                                alert("Debe ingresar una fecha.");
+                                $(".fecha").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar el control de laboratorio ingresado?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{laboratorioBean.laboratorioID}" />
+                    <h:inputHidden value="#{laboratorioBean.pacienteID}" />
+                    <h:inputHidden value="#{laboratorioBean.codigo}" />
+                    <input type="hidden" class="ultimodisli" value="#{laboratorioBean.ultimodisli}" />
+                    <input type="hidden" class="ultimoglice" value="#{laboratorioBean.ultimoglice}" />
+                    <input type="hidden" class="ultimohema" value="#{laboratorioBean.ultimohema}" />
+                    <input type="hidden" class="ultimohiper" value="#{laboratorioBean.ultimohiper}" />
+         
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                            <tbody>
+                                <tr>
+                            <td colspan="5" class="titulo">
+                                CONTROLES LABORATORIO
+                            </td>
+                                    <td class="titulo" align="right">
+                                        <h:panelGroup layout="block" rendered="#{laboratorioBean.codigo ne ''}" styleClass="codigoInfo">
+                                            Código: #{laboratorioBean.codigo}&nbsp;
+                                        </h:panelGroup>
+                                    </td>
+                            </tr><tr>
+                                <td>
+                                    TIPO CONTROL
+                                </td>
+                                <td colspan="3">
+
+                                    <h:panelGroup layout="block" rendered="#{laboratorioBean.laboratorioID eq null}">
+                                        <h:selectOneRadio value="#{laboratorioBean.tipo}">
+                                            <f:selectItem itemValue="HI" itemLabel="HIPERTENSIÓN ARTERIAL" />
+                                            <f:selectItem itemValue="DI" itemLabel="DISLIPIDEMIA" />
+                                            <f:selectItem itemValue="GL" itemLabel="GLICEMIA Y DIABETES" />
+                                            <f:selectItem itemValue="HE" itemLabel="HEMATOCRITO Y TRANSAMINASAS" />
+                                        </h:selectOneRadio>
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" rendered="#{laboratorioBean.laboratorioID ne null}">
+                                        <h:selectOneRadio value="#{laboratorioBean.tipo}" disabled="true">
+                                            <f:selectItem itemValue="HI" itemLabel="HIPERTENSIÓN ARTERIAL" />
+                                            <f:selectItem itemValue="DI" itemLabel="DISLIPIDEMIA" />
+                                            <f:selectItem itemValue="GL" itemLabel="GLICEMIA Y DIABETES" />
+                                            <f:selectItem itemValue="HE" itemLabel="HEMATOCRITO Y TRANSAMINASAS" />
+                                        </h:selectOneRadio>
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="10%">
+                                    N°CONTROL
+                                </td>
+                                <td width="15%">
+                                    <h:panelGroup layout="block" rendered="#{laboratorioBean.laboratorioID eq null}">
+                                        <p:inputText value="#{laboratorioBean.numeroControl}" tabindex="" required="false" class="numeroControl"  />
+                                    </h:panelGroup>
+                                    <h:panelGroup layout="block" rendered="#{laboratorioBean.laboratorioID ne null}">
+                                        <p:inputText value="#{laboratorioBean.numeroControl}" tabindex="" disabled="true"  />
+                                    </h:panelGroup>
+                                </td>
+                                <td width="10%">
+                                    FECHA
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.fecha}" tabindex="" styleClass="calendar2 fecha" type="date" required="true" maxlength="10" />
+                                </td>
+                            </tr>
+                                <tr class="diagnostico">
+                                <td>
+                                    <span id="lblDiagnostico">DIAGNOSTICO</span>
+                                </td>
+                                <td colspan="3">
+
+                                    <h:selectOneMenu value="#{laboratorioBean.diagnostico}">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                                    <f:selectItem itemValue="SC" itemLabel="SÍ, CON FÁRMACOS" />
+                                    <f:selectItem itemValue="SS" itemLabel="SÍ, SIN FÁRMACOS" />
+                                    <f:selectItem itemValue="NO" itemLabel="NO" />
+                                    <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                                </h:selectOneMenu>
+                                </td>
+                            </tr>
+                                <tr class="hipertension">
+                                <td>
+                                    <span id="lblItem1">PR SIST</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.sistolica}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    <span id="lblItem2">PR DIAST</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.diastolica}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    <span id="lblItem2">PESO</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.peso}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                            </tr>
+                                <tr class="dislipidemia">
+                                <td>
+                                    <span id="lblItem1">COL TOT</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.colestotal}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    <span id="lblItem2">COL HDL</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.colesHdl}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                            </tr>
+                                <tr  class="dislipidemia">
+                                <td>
+                                    <span id="lblItem3">COL LDL</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.colesLdl}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    <span id="lblItem4">TRIGLIC</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.trigli}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                            </tr>
+                                <tr class="glicemia">
+                                <td>
+                                    <span id="lblItem1">GLICEM</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.glice}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                                <tr class="hematocrito">
+                                <td>
+                                    <span id="lblItem1">HEMAT</span>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{laboratorioBean.hematocrito}" tabindex="" required="false" maxlength="10" />
+                                </td>
+                                <td>
+                                    <span id="lblItem2">GOT</span>
+                                </td>
+                                <td>                        
+                                <h:selectOneMenu value="#{laboratorioBean.gpt}">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                                    <f:selectItem itemValue="NO" itemLabel="NORMAL" />
+                                    <f:selectItem itemValue="l2X" itemLabel="&lt;2X" />
+                                    <f:selectItem itemValue="l3X" itemLabel="&lt;3X" />
+                                    <f:selectItem itemValue="l5X" itemLabel="&lt;5X" />
+                                    <f:selectItem itemValue="l10X" itemLabel="&lt;10X" />
+                                    <f:selectItem itemValue="g10X" itemLabel="&gt;10X" />
+                                    <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                                </h:selectOneMenu>
+                                </td>
+                            </tr>
+                                <tr  class="hematocrito">
+                                <td>
+                                    <span id="lblItem3">GPT</span>
+                                </td>
+                                <td>
+                                <h:selectOneMenu value="#{laboratorioBean.got}">
+                                    <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                                    <f:selectItem itemValue="NO" itemLabel="NORMAL" />
+                                    <f:selectItem itemValue="l2X" itemLabel="&lt;2X" />
+                                    <f:selectItem itemValue="l3X" itemLabel="&lt;3X" />
+                                    <f:selectItem itemValue="l5X" itemLabel="&lt;5X" />
+                                    <f:selectItem itemValue="l10X" itemLabel="&lt;10X" />
+                                    <f:selectItem itemValue="g10X" itemLabel="&gt;10X" />
+                                    <f:selectItem itemValue="ND" itemLabel="NO DISPONIBLE" />
+                                </h:selectOneMenu>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+                                <tr>
+                             <td>
+                                 Observaciones
+                             </td>
+                             <td colspan="5">
+                                 <h:inputTextarea value="#{laboratorioBean.observaciones}" class="inputs" style="width: 600px; height: 50px;" />
+                             </td>
+                           </tr>
+                                <tr>
+                                    <td colspan="3" class="titulo" align="left">
+                                            <p:commandButton action="#{laboratorioBean.generarFicha}" value="Ficha Controles Laboratorio" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                                           <!-- <input type="button" name="button" id="button" value="Ficha Completa" />-->
+                                    </td>
+                                <td colspan="3" class="titulo" align="right">
+                                    <p:commandButton action="#{laboratorioBean.guardarLaboratorio}" value="Aceptar" type="submit" class="guardarControlLaboratorioClick" ajax="false" />
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    <div class="debug_log">Log: <h:outputText value="#{laboratorioBean.resultado}" escape="false" /></div>
+                </h:form>  
+                    <p>&nbsp;</p>
+                    <h:form>
+                        <h:panelGroup rendered="#{laboratorioBean.resultadosHiper.size() eq 0}" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Hipertensión Arterial para mostrar</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                        <p:dataTable rowIndexVar="rowIndex" id="tblcd4" value="#{laboratorioBean.resultadosHiper}" rendered="#{laboratorioBean.resultadosHiper.size() ne 0}" var="item" paginator="false" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <f:facet name="header">
+                            Hipertensión Arterial
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[7])}" />
+                        </p:column>
+                        <p:column headerText="Diagnóstico">                        
+                            <h:outputText value="#{utilidadesBean.resultadoDiag(item[4])}" />
+                        </p:column> 
+                        <p:column headerText="Sistólica">                        
+                            <h:outputText value="#{item[5]}" />
+                        </p:column> 
+                        <p:column headerText="Diastólica">                        
+                            <h:outputText value="#{item[6]}" />
+                        </p:column> 
+                        <p:column headerText="Peso">                        
+                            <h:outputText value="#{item[8]}" />
+                        </p:column> 
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{laboratorioBean.resultadosHiper.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                        
+                    <h:panelGroup rendered="#{laboratorioBean.resultadosDisli.size() eq 0}" style="width: 49%; float: right;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Dislipidemia para mostrar</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                     <p:dataTable rowIndexVar="rowIndex" id="tblcv" value="#{laboratorioBean.resultadosDisli}" rendered="#{laboratorioBean.resultadosDisli.size() ne 0}" var="item" paginator="false" style="width: 49%; float: right;">
+                        <f:facet name="header">
+                            Dislipidemia
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                            <h:outputText value="#{controlesBean.util.fechaTabla(item[9])}" />
+                        </p:column>
+                         <p:column headerText="Diagnóstico">                        
+                            <h:outputText value="#{utilidadesBean.resultadoDiag(item[4])}" />
+                        </p:column> 
+                        <p:column headerText="Col Total">                        
+                            <h:outputText value="#{item[5]}" />
+                        </p:column> 
+                        <p:column headerText="Col HDL">                        
+                            <h:outputText value="#{item[7]}" />
+                        </p:column> 
+
+                         <p:column headerText="Col LDL">                        
+                            <h:outputText value="#{item[6]}" />
+                        </p:column> 
+
+                         <p:column headerText="Col Trgliceridos">                        
+                            <h:outputText value="#{item[8]}" />
+                        </p:column> 
+                         <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{laboratorioBean.resultadosDisli.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                    </h:form>
+                        <div style="clear: both; height: 20px;">&nbsp;</div>
+                        
+                        <h:form>
+                            <h:panelGroup rendered="#{laboratorioBean.resultadosGlice.size() eq 0}" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Glicemia y Diabetes para mostrar</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                            <p:dataTable rowIndexVar="rowIndex" id="tblcd4" value="#{laboratorioBean.resultadosGlice}" rendered="#{laboratorioBean.resultadosGlice.size() ne 0}" var="item" paginator="false" style="width: 49%; float: left; margin-right: 10px; float: left;">
+                        <f:facet name="header">
+                            Glicemia y Diabetes
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{controlesBean.util.fechaTabla(item[7])}" />
+                        </p:column>
+                        <p:column headerText="Diagnóstico">                        
+                            <h:outputText value="#{utilidadesBean.resultadoDiag(item[4])}" />
+                        </p:column> 
+                        <p:column headerText="Glicemia">                        
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>
+                        <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{laboratorioBean.resultadosHiper.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                            
+                            <h:panelGroup rendered="#{laboratorioBean.resultadosHema.size() eq 0}" style="width: 49%; float: right;">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                           <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                               <td align="center">No hay controles de Hematocrito y Transaminasas para mostrar</td>
+                           </tr>
+                        </table>
+                      </h:panelGroup>
+                            <p:dataTable rowIndexVar="rowIndex" id="tblcv" value="#{laboratorioBean.resultadosHema}"  rendered="#{laboratorioBean.resultadosHema.size() ne 0}" var="item" paginator="false" style="width: 49%; float: right;">
+                        <f:facet name="header">
+                            Hematocrito y Transaminasas
+                        </f:facet>
+                        <p:column headerText="N° Control" width="70">
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                            <p:column headerText="Fecha" width="80">
+                            <h:outputText value="#{controlesBean.util.fechaTabla(item[8])}" />
+                        </p:column>
+                        <p:column headerText="Hematocrito">                        
+                            <h:outputText value="#{item[5]}" />
+                        </p:column> 
+                        <p:column headerText="GPT">                        
+                            <h:outputText value="#{utilidadesBean.resultadoG(item[6])}" />
+                        </p:column>
+                         <p:column headerText="GOT">                        
+                            <h:outputText value="#{utilidadesBean.resultadoG(item[7])}" />
+                        </p:column> 
+                         <p:column style="width:145px;text-align: center">
+                            <input type="button" class="modificarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Modificar" />
+                            <input type="button" class="eliminarLaboratorio" laboratorioID="#{item[0].toString()}" pacienteID="#{laboratorioBean.pacienteID}" value="Eliminar" />
+                        </p:column>
+                        <f:facet name="footer">
+                            Se encontraron #{laboratorioBean.resultadosHema.size()} controles para este paciente.
+                        </f:facet>
+                    </p:dataTable>
+                    </h:form>
+
+                    <h:form>
+                        <h:inputText value="#{laboratorioBean.laboratorioID}" styleClass="eliminarLaboratorioVal" style="display: none;" />
+                        <h:inputText value="#{laboratorioBean.pacienteID}" styleClass="eliminarLaboratorioPac" style="display: none;" />
+                        <h:inputText value="#{pacienteBean.pacienteID}" styleClass="eliminarLaboratorioPac" style="display: none;" />
+                        <h:commandButton action="#{laboratorioBean.eliminarLaboratorio}" styleClass="eliminarLaboratorioBtn" style="display: none;" />
+                    </h:form>
+
+                    <h:form>
+                        <h:inputText value="#{laboratorioBean.laboratorioID}" styleClass="modificarLaboratorioVal" style="display: none;" />
+                        <h:inputText value="#{laboratorioBean.pacienteID}" styleClass="modificarLaboratorioPac" style="display: none;" />
+                        <h:inputText value="#{pacienteBean.pacienteID}" styleClass="modificarLaboratorioPac" style="display: none;" />
+                        <h:commandButton action="#{laboratorioBean.modificarLaboratorio}" styleClass="modificarLaboratorioBtn" style="display: none;" />
+                    </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

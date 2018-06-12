@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Completa #{fichaBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+            /*size: landscape; */  /* auto is the initial value */ 
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+            /*white-space: nowrap;*/
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+        <div>
+            <h2>Ficha Completa #{fichaBean.codigo}</h2>
+            <h3>Datos Personales</h3>
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="25%">Código</td>
+                  <td width="25%">
+                      <strong>
+                        <h:panelGroup layout="block" rendered="#{fichaBean.codigo ne ''}">
+                          #{fichaBean.codigo}
+                        </h:panelGroup>
+                          <h:panelGroup layout="block" rendered="#{fichaBean.codigo eq ''}">
+                          SIN DATOS
+                          </h:panelGroup>
+                  </strong></td>
+                  <td width="25%" valign="top">Centro</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.centroID ne null}">
+                          #{utilidadesBean.centro(fichaBean.centroID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.centroID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Sexo</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.sexoID ne null}">
+                          #{utilidadesBean.sexo(fichaBean.sexoID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.sexoID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>N° Ficha</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.ficha ne null}">
+                          #{fichaBean.ficha}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.ficha eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                 <tr>
+                  <td valign="top">Identidad de Género</td>
+                  <td>
+                      <strong>
+                          <h:panelGroup layout="block" rendered="#{pacienteBean.identidadGeneroID ne null}">
+                          #{utilidadesBean.identidadGenero(pacienteBean.identidadGeneroID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{pacienteBean.identidadGeneroID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Rut</td>
+                  <td>
+                      <strong>
+                    <h:panelGroup layout="block" rendered="#{pacienteBean.rut ne ''}"> #{pacienteBean.rut}-#{pacienteBean.dv}</h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{pacienteBean.rut eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td valign="top">Factor de Riesgo</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.factorRiesgoID ne null}">
+                          #{utilidadesBean.factorRiesgo(fichaBean.factorRiesgoID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.factorRiesgoID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">
+                  <!-- Modificacion solicitada 30/12-->
+                    Orientación Sexual
+                    <!--PREFERENCIA SEXUAL-->
+                  </td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.preferenciaSexualID ne null}">
+                          #{utilidadesBean.preferenciaSexual(fichaBean.preferenciaSexualID)}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.preferenciaSexualID eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Uso Anticonceptivo</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.usoAnticonceptivoID ne null}"> #{utilidadesBean.usoAnticonceptivo(fichaBean.usoAnticonceptivoID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.usoAnticonceptivoID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Ingreso Centro</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaIngreso ne ''}">
+                          #{fichaBean.fechaIngreso}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaIngreso eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td>N° Registro ISP</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.registroISP ne ''}">
+                          #{fichaBean.registroISP}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.registroISP eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Confirmación ISP</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.fechaISP ne ''}"> #{fichaBean.fechaISP} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.fechaISP eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td>CD4 Ingreso</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.cd4 ne null}">
+                          #{fichaBean.cd4}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.cd4 eq null}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha CD4 Ingreso</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaCD4 ne ''}">
+                          #{fichaBean.fechaCD4}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaCD4 eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td>Fecha Notificación ENO</td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaNotificacion ne ''}">
+                          #{fichaBean.fechaNotificacion}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaNotificacion eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                  <td><!-- Modificacion solicitada 30/12-->
+                    Fecha Formulario Notificación de Caso VIH/SIDA
+                    <!--Fecha Encuesta Caso VIH--></td>
+                  <td>
+                      <strong>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaEncuesta ne ''}">
+                          #{fichaBean.fechaEncuesta}
+                      </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.fechaEncuesta eq ''}">
+                          SIN DATOS
+                      </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                    <td width="25%" valign="top">Razón de Test</td>
+                    <td colspan="3"><strong>
+                        <h:outputText value="#{utilidadesBean.razon(fichaBean.razones)}" escape="false" />
+                  </strong></td>
+                </tr>
+            </table>
+            <h3>Otros Datos</h3>
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="25%" valign="top">Nacionalidad</td>
+                  <td width="25%"><strong>
+                          <h:panelGroup layout="block" rendered="#{fichaBean.paisOrigenID ne null}"> #{utilidadesBean.paisOrigen(fichaBean.paisOrigenID)} </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.paisOrigenID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td width="25%"></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td valign="top">Comuna</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.comunaID ne null}"> #{utilidadesBean.comuna(fichaBean.comunaID.toString())} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.comunaID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">Hábitos</td>
+                  <td><strong>
+                    <h:outputText value="#{utilidadesBean.habito(fichaBean.habitos)}" escape="false" />
+                </strong></td>
+                </tr>
+                <tr style="background-color: #F2F2F2;">
+                  <td valign="top">Nivel Educacional</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.nivelEducacionalID ne null}"> #{utilidadesBean.nivelEducacional(fichaBean.nivelEducacionalID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.nivelEducacionalID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td valign="top">Empleo</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.empleoID ne null}"> #{utilidadesBean.empleo(fichaBean.empleoID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.empleoID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+                <tr>
+                  <td valign="top">Etnia</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.etniaID ne null}"> #{utilidadesBean.etnia(fichaBean.etniaID)} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.etniaID eq null}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                  <td>Fecha Nacimiento</td>
+                  <td><strong>
+                    <h:panelGroup layout="block" rendered="#{fichaBean.fechaNacimiento ne ''}"> #{fichaBean.fechaNacimiento} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.fechaNacimiento eq ''}"> SIN DATOS </h:panelGroup>
+                  </strong></td>
+                </tr>
+            </table>
+            <h3>Datos Basales</h3>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%">Clas. CDC L</td>
+              <td colspan="2">
+                <h:panelGroup layout="block" rendered="#{fichaBean.clasificacionL ne ''}">
+                    #{fichaBean.clasificacionL}
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{fichaBean.clasificacionL eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="20%">Clas. CDC N</td>
+              <td width="17%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.clasificacionN ne ''}">
+                    #{fichaBean.clasificacionN}
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{fichaBean.clasificacionN eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr>
+              <td>CD4</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.cd4b ne null}">
+                    #{fichaBean.cd4b}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.cd4b eq null}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.CD4bFecha ne ''}"> #{fichaBean.CD4bFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.CD4bFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>%CD4</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.pcd4 ne ''}">
+                    #{fichaBean.pcd4} %
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.pcd4 eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>CV</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.cv ne null}">
+                    #{fichaBean.cv}
+                </h:panelGroup>
+                <h:panelGroup layout="block" rendered="#{fichaBean.cv eq null}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.CVFecha ne ''}"> #{fichaBean.CVFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.CVFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>Logaritmo</td>
+              <td>
+                <h:panelGroup layout="block" rendered="#{fichaBean.logaritmo ne ''}">
+                    #{fichaBean.logaritmo}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.logaritmo eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr>
+              <td>HLA-B5701</td>
+              <td colspan="2">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hla ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.hla)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hla eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td rowspan="2">PPD</td>
+              <td rowspan="2">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.ppd ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.ppd)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.ppd eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td rowspan="2"><h:panelGroup layout="block" rendered="#{fichaBean.ppdFecha ne ''}"> #{fichaBean.ppdFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.ppdFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>Tratamiento</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.ppdTratamiento ne ''}">
+                    #{utilidadesBean.siNo(fichaBean.ppdTratamiento)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.ppdTratamiento eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Rx Torax</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.rxTorax ne ''}">
+                    #{utilidadesBean.siNo(fichaBean.rxTorax)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.rxTorax eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr>
+              <td>HBsAg</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hbsa ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.hbsa)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hbsa eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.hbsaFecha ne ''}"> #{fichaBean.hbsaFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.hbsaFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>Examen Orina</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.examenOrina ne ''}">
+                    #{utilidadesBean.siNo(fichaBean.examenOrina)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.examenOrina eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td rowspan="3">VHC</td>
+              <td rowspan="3">
+                <h:panelGroup layout="block" rendered="#{fichaBean.vhc ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.vhc)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.vhc eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td rowspan="3"><h:panelGroup layout="block" rendered="#{fichaBean.vhcFecha ne ''}"> #{fichaBean.vhcFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.vhcFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>Peso</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.peso ne ''}">
+                    #{fichaBean.peso} Kg
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.peso eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Talla</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.talla ne ''}">
+                    #{fichaBean.talla} m
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.talla eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>IMC</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.imc ne ''}">
+                    #{fichaBean.imc} Kg/m¹
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.imc eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr>
+              <td>TOXOPLASMOSIS</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.toxoplasmosis ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.toxoplasmosis)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.toxoplasmosis eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.toxoFecha ne ''}"> #{fichaBean.toxoFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.toxoFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>VDRL</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.vdrl ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.vdrl)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.vdrl eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.vdrlFecha ne ''}"> #{fichaBean.vdrlFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.vdrlFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>CHAGAS</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.chagas ne ''}">
+                    #{utilidadesBean.resultadoTipo1(fichaBean.chagas)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.chagas eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.chagasFecha ne ''}"> #{fichaBean.chagasFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.chagasFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td></td>
+              <td></td>
+            </tr>
+           <tr style="background-color: #F2F2F2;">
+              <td>PAP</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.pap ne ''}">
+                    #{utilidadesBean.resultadoTipo2(fichaBean.pap)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.pap eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.papFecha ne ''}"> #{fichaBean.papFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.papFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td>Siges</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.siges ne ''}">
+                    #{utilidadesBean.siNo(fichaBean.siges)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.siges eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+          </table>
+        <h3>Enfermedades Basales</h3>
+        <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad1ID ne null}">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="20%">Enfermedad N°1</td>
+                  <td>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad1ID ne null}">
+                        #{utilidadesBean.enfermedad(fichaBean.enfermedad1ID)}
+                    </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad1ID eq null}">
+                        SIN DATOS
+                    </h:panelGroup>
+                  </td>
+                  <td width="17%">
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enf1Fecha ne ''}"> #{fichaBean.enf1Fecha} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.enf1Fecha eq ''}"> SIN FECHA </h:panelGroup></td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad2ID ne null}">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                  <td width="20%">Enfermedad N°2</td>
+                  <td>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad2ID ne null}">
+                        #{utilidadesBean.enfermedad(fichaBean.enfermedad2ID)}
+                    </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad2ID eq null}">
+                        SIN DATOS
+                    </h:panelGroup>
+                  </td>
+                  <td width="17%">
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enf2Fecha ne ''}"> #{fichaBean.enf2Fecha} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.enf2Fecha eq ''}"> SIN FECHA </h:panelGroup></td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad3ID ne null}">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2;">
+                  <td width="20%">Enfermedad N°3</td>
+                  <td>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad3ID ne null}">
+                        #{utilidadesBean.enfermedad(fichaBean.enfermedad3ID)}
+                    </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad3ID eq null}">
+                        SIN DATOS
+                    </h:panelGroup>
+                  </td>
+                  <td width="17%">
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enf3Fecha ne ''}"> #{fichaBean.enf3Fecha} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.enf3Fecha eq ''}"> SIN FECHA </h:panelGroup></td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad4ID ne null}">
+            <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                  <td width="20%">Enfermedad N°4</td>
+                  <td>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad4ID ne null}">
+                        #{utilidadesBean.enfermedad(fichaBean.enfermedad4ID)}
+                    </h:panelGroup>
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enfermedad4ID eq null}">
+                        SIN DATOS
+                    </h:panelGroup>
+                  </td>
+                  <td width="17%">
+                      <h:panelGroup layout="block" rendered="#{fichaBean.enf4Fecha ne ''}"> #{fichaBean.enf4Fecha} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.enf4Fecha eq ''}"> SIN FECHA </h:panelGroup></td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+        <td width="20%">GPT</td>
+              <td width="17%">
+                  <h:panelGroup layout="block" rendered="#{basalesBean.gpt ne ''}">
+                    #{utilidadesBean.resultadoG(basalesBean.gpt)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{basalesBean.gpt eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            
+              <td>GOT</td>
+              <td><h:panelGroup layout="block" rendered="#{basalesBean.got ne ''}"> #{utilidadesBean.resultadoG(basalesBean.got)} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{basalesBean.got eq ''}"> SIN DATOS </h:panelGroup></td>
+            </tr>
+        </table>
+        <h3>Hipertensión Arterial</h3>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%" rowspan="2">Diagnóstico</td>
+              <td rowspan="2">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hiperDiag ne ''}">
+                    #{utilidadesBean.resultadoDiag(fichaBean.hiperDiag)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hiperDiag eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%" rowspan="2">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hiperFecha ne ''}"> #{fichaBean.hiperFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.hiperFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td width="20%">Presión Sistólica</td>
+              <td width="17%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.PSist ne ''}">
+                    #{fichaBean.PSist}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.PSist eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Presión Diastólica</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.PDias ne ''}">
+                    #{fichaBean.PDias}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.PDias eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+          </table>
+        <h3>Dislipidemias</h3>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%" rowspan="4">Diagnóstico</td>
+              <td rowspan="4">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.disliDiag ne ''}">
+                    #{utilidadesBean.resultadoDiag(fichaBean.disliDiag)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.disliDiag eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%" rowspan="4">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.disliFecha ne ''}"> #{fichaBean.disliFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.disliFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td width="20%">Colesterol Total</td>
+              <td width="17%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.colesTotal ne ''}">
+                    #{fichaBean.colesTotal}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.colesTotal eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Colesterol HDL</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.colesHdl ne ''}">
+                    #{fichaBean.colesHdl}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.colesHdl eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Colesterol LDL</td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.colesLdl ne ''}"> #{fichaBean.colesLdl} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.colesLdl eq ''}"> SIN DATOS </h:panelGroup></td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td>Trigliceridos</td>
+              <td><h:panelGroup layout="block" rendered="#{fichaBean.trigi ne ''}"> #{fichaBean.trigi} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.trigi eq ''}"> SIN DATOS </h:panelGroup></td>
+            </tr>
+          </table>
+
+        <h3>Glicemias y Diabetes</h3>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%">Diagnóstico</td>
+              <td rowspan="4">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.gliceDiag ne ''}">
+                    #{utilidadesBean.resultadoDiag(fichaBean.gliceDiag)}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.gliceDiag eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.gliceFecha ne ''}"> #{fichaBean.gliceFecha} </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.gliceFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+              <td width="20%">Glicemia</td>
+              <td width="17%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.glice ne ''}">
+                    #{fichaBean.glice}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.glice eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+            </tr>
+            </table>
+        <h3>Hematocrito y Transaminasas</h3>
+        <table width="100%" border="0" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%">Hematocrito</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hematocrito ne ''}">
+                    #{fichaBean.hematocrito}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hematocrito eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%">
+                  <h:panelGroup layout="block" rendered="#{fichaBean.hemaFecha ne ''}"> #{fichaBean.hemaFecha} </h:panelGroup>
+              <h:panelGroup layout="block" rendered="#{fichaBean.hemaFecha eq ''}"> SIN FECHA </h:panelGroup></td>
+            </tr>
+            <tr style="background-color: #F2F2F2;">
+              <td width="20%">Transaminasas</td>
+              <td>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.transaminasas ne ''}">
+                    #{fichaBean.transaminasas}
+                </h:panelGroup>
+                  <h:panelGroup layout="block" rendered="#{fichaBean.transaminasas eq ''}">
+                    SIN DATOS
+                </h:panelGroup>
+              </td>
+              <td width="15%"></td>
+            </tr>
+        </table>
+        
+        <h3>Terapias</h3>
+        <h:panelGroup rendered="#{fichaBean.terapias.size() ne 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td>N° Tar</td>
+                    <td>Fecha</td>
+                    <td>Drogas</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>No Continua</td>
+                    <td>Causa Término</td>
+                    <td>Razón Toxicidad</td>
+                    <td>Término</td>
+                    <td>Geno</td>
+                    <td>Geno Fecha</td>
+                    <td>Trop. Viral R5</td>
+                </tr>
+                <tbody>
+                    <ui:repeat var="item" value="#{fichaBean.terapias}" varStatus="status">
+                        <h:panelGroup rendered="#{status.even}">
+                          <tr>
+                                <td align="right">#{item[1]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[2])}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 1, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 2, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 3, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 4, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 5, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 6, item[10].toString())}</td>
+                                <td>#{terapiaBean.noContinuaDespliegue(item[3])}</td>
+                                <td>#{terapiaBean.causaTermino(item[4])}</td>
+                                <td>#{terapiaBean.razonToxicidad(item[5])}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[6])}</td>
+                                <td align="center">#{item[7]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[8])}</td>
+                                <td>#{terapiaBean.torpismoViral(item[9])}</td>
+                          </tr>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{status.odd}">
+                          <tr style="background-color: #F2F2F2;">
+                                <td align="right">#{item[1]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[2])}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 1, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 2, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 3, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 4, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 5, item[10].toString())}</td>
+                                <td>#{terapiaBean.despliegueDroga(fichaBean.pacienteID, 6, item[10].toString())}</td>
+                                <td>#{terapiaBean.noContinuaDespliegue(item[3])}</td>
+                                <td>#{terapiaBean.causaTermino(item[4])}</td>
+                                <td>#{terapiaBean.razonToxicidad(item[5])}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[6])}</td>
+                                <td align="center">#{item[7]}</td>
+                                <td align="center">#{terapiaBean.formatoDespliegueFecha(item[8])}</td>
+                                <td>#{terapiaBean.torpismoViral(item[9])}</td>
+                          </tr>
+                        </h:panelGroup>
+                    </ui:repeat>
+                </tbody>
+            </table>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{fichaBean.terapias.size() eq 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td align="center">
+                        No hay terapias para mostrar
+                    </td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        
+        <h3>Controles</h3>
+        <h:panelGroup rendered="#{fichaBean.resultadosCD4.size() ne 0}">
+              <table width="100%" border="1" cellspacing="0" cellpadding="5"  >
+                  <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                      <td colspan="4" style="border-bottom: 1px solid white;">Controles CD4</td>
+                </tr>
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                  <td>N°</td>
+                  <td>Fecha</td>
+                  <td>Resultado</td>
+                  <td>%</td>
+                </tr>
+                <tbody>
+                    <ui:repeat var="item" value="#{fichaBean.resultadosCD4}" varStatus="status">
+                    <h:panelGroup rendered="#{status.even}">
+                      <tr>
+                        <td align="right">#{item[2]}</td>
+                        <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                        <td>#{item[4]}</td>
+                        <td>#{item[5]} %</td>
+                      </tr>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{status.odd}">
+                      <tr style="background-color: #F2F2F2;">
+                        <td align="right">#{item[2]}</td>
+                        <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                        <td>#{item[4]}</td>
+                        <td>#{item[5]} %</td>
+                      </tr>
+                    </h:panelGroup>
+                  </ui:repeat>
+                </tbody>
+              </table>
+            </h:panelGroup>
+        <h:panelGroup rendered="#{fichaBean.resultadosCD4.size() eq 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+             <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                 <td align="center">No hay controles CD4 para mostrar</td>
+             </tr>
+          </table>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{fichaBean.resultadosCV.size() ne 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-top: 20px;">
+                <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                    <td colspan="4" style="border-bottom: 1px solid white;">Controles CV</td>
+              </tr>
+              <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                <td>N° Control CV</td>
+                <td>Fecha</td>
+                <td>Resultado</td>
+                <td>Logaritmo</td>
+              </tr>
+              <tbody>
+                  <ui:repeat var="item" value="#{fichaBean.resultadosCV}" varStatus="status">
+                  <h:panelGroup rendered="#{status.even}">
+                      <tr style="border-right: 1px solid #F2F2F2;">
+                      <td align="right">#{item[2]}</td>
+                      <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                      <td>#{item[4]}</td>
+                      <td>#{item[5]}</td>
+                    </tr>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{status.odd}">
+                    <tr style="background-color: #F2F2F2; border-right: 1px solid #F2F2F2;">
+                      <td align="right">#{item[2]}</td>
+                      <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                      <td>#{item[4]}</td>
+                      <td>#{item[5]}</td>
+                    </tr>
+                  </h:panelGroup>
+                </ui:repeat>
+              </tbody>
+            </table>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{fichaBean.resultadosCV.size() eq 0}">
+              <table width="100%" border="1" cellspacing="0" cellpadding="5"  style="margin-top: 20px;">
+                 <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                   <td align="center">No hay controles CV para mostrar</td>
+                 </tr>
+              </table>
+            </h:panelGroup>
+        
+       
+        </div>
+    </body>
+</html>

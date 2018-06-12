@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Paciente #{laboratorioBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+           /* size: landscape;   *//* auto is the initial value */ 
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+            white-space: nowrap;
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+        <div>
+            <h2>Ficha Paciente #{laboratorioBean.codigo}</h2>
+        <h3>Controles Laboratorio</h3>
+
+                  <h:panelGroup rendered="#{laboratorioBean.resultadosHiper.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="5" style="border-bottom: 1px solid white;">Hipertensión Arterial</td>
+                      </tr>
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td>Fecha</td>
+                        <td>Diagnóstico</td>
+                        <td>Sistólica</td>
+                        <td>Diastólica</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{laboratorioBean.resultadosHiper}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                            <tr>
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[7])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[6]}</td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[7])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[6]}</td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{laboratorioBean.resultadosHiper.size() eq 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                       <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                           <td align="center">No hay controles de Hipertensión Arterial para mostrar</td>
+                       </tr>
+                    </table>
+                  </h:panelGroup>
+             
+                <h:panelGroup rendered="#{laboratorioBean.resultadosDisli.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-top: 20px;">
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="7" style="border-bottom: 1px solid white;">Dislipidemia</td>
+                      </tr>
+                        <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td>Fecha</td>
+                        <td>Diagnóstico</td>
+                        <td>Col Total</td>
+                        <td>Col HDL</td>
+                        <td>Col LDL</td>
+                        <td>Trigli.</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{laboratorioBean.resultadosDisli}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                              <tr style="border-right: 1px solid #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[9])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[7]}</td>
+                                <td>#{item[6]}</td>
+                                <td>#{item[8]}</td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2; border-right: 1px solid #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[9])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[7]}</td>
+                                <td>#{item[6]}</td>
+                                <td>#{item[8]}</td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+              </h:panelGroup>
+              <h:panelGroup rendered="#{laboratorioBean.resultadosDisli.size() eq 0}">
+                <table width="100%" border="1" cellspacing="0" cellpadding="5"  style="margin-top: 20px;">
+                   <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                     <td align="center">No hay controles de Dislipidemia para mostrar</td>
+                   </tr>
+                </table>
+              </h:panelGroup>
+          
+                  <h:panelGroup rendered="#{laboratorioBean.resultadosGlice.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5"  style="margin-top:20px;">
+                        <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="5" style="border-bottom: 1px solid white;">Glicemia y Diabetes</td>
+                      </tr>
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td>Fecha</td>
+                        <td>Diagnóstico</td>
+                        <td>Glicemia</td>
+                        <td>Peso</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{laboratorioBean.resultadosGlice}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                            <tr>
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[7])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[5]}</td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[7])}</td>
+                              <td>#{utilidadesBean.resultadoDiag(item[4])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{item[5]}</td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{laboratorioBean.resultadosGlice.size() eq 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5"  style=" margin-top:20px;">
+                       <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                           <td align="center">No hay controles de Glicemia y Diabetes para mostrar</td>
+                       </tr>
+                    </table>
+                  </h:panelGroup>
+             
+                <h:panelGroup rendered="#{laboratorioBean.resultadosHema.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5" style="margin-top:20px;">
+                         <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="5" style="border-bottom: 1px solid white;">Hematocrito y Transaminasas</td>
+                      </tr>
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td>Fecha</td>
+                        <td>Hematocrito</td>
+                        <td>GPT</td>
+                        <td>GOT</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{laboratorioBean.resultadosHema}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                              <tr style="border-right: 1px solid #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[8])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{utilidadesBean.resultadoG(item[6])}</td>
+                              <td>#{utilidadesBean.resultadoG(item[7])}</td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2; border-right: 1px solid #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[8])}</td>
+                              <td>#{item[5]}</td>
+                              <td>#{utilidadesBean.resultadoG(item[6])}</td>
+                              <td>#{utilidadesBean.resultadoG(item[7])}</td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+              </h:panelGroup>
+              <h:panelGroup rendered="#{laboratorioBean.resultadosHema.size() eq 0}">
+                <table width="100%" border="1" cellspacing="0" cellpadding="5"  style="margin-top:20px;">
+                   <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                     <td align="center">No hay controles de Hematocrito y Transaminasas para mostrar</td>
+                   </tr>
+                </table>
+              </h:panelGroup>
+            
+        </div>
+    </body>
+</html>

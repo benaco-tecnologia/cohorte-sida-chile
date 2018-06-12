@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Controles CD4 y CV</title>
+    </head>
+    <body>
+        <h3>Controles CD4 y CV</h3>
+        <table border="1" cellspacing="0" cellpadding="3" width="100%">
+            <tr>
+                <th>Código</th>
+                <th>Centro</th>
+                <th>Tipo</th>
+                <th>Numero</th>
+                <th>Fecha</th>
+                <th>Resultado</th>
+                <th>Porcentaje</th>
+                <th>Logaritmo</th>
+                <th>Observacion</th>
+            </tr>
+            <tbody>
+                <ui:repeat var="item" value="#{exportarBean.Controles()}">
+                    <tr>
+                        <td>#{(item[0]).toString().toUpperCase()}</td>
+                        <td>#{item[1]}</td>
+                        <td>#{exportarBean.TipoControl(item[3])}</td>
+                        <td>#{item[2]}</td>
+                        <td>#{item[4]}</td>
+                        <td>#{item[5]}</td>
+                        <td>#{item[6]}</td>
+                        <td>#{item[7]}</td>
+                        <td>#{item[8]}</td>
+                    </tr>
+                </ui:repeat>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>faces/ingreso.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <security-constraint>
+        <display-name>Restrict direct access to the /resources folder.</display-name>
+        <web-resource-collection>
+            <web-resource-name>The /resources folder.</web-resource-name>
+            <url-pattern>/resources/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
+    </security-constraint> 
+    
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>	        
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+	 <param-value>client</param-value>
+	    </context-param>
+    
+    <context-param> 
+    <param-name>javax.faces.CONFIG_FILES</param-name> 
+          <param-value>/WEB-INF/faces-config.xml</param-value> 
+    </context-param> 
+
+    <!--
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/ingreso.xhtml">
+            <message></message>
+        </redirect>
+    </exception>
+    
+     <exception class="javax.servlet.ServletException">
+        <redirect view-id="/ingreso.xhtml">
+            <message></message>
+        </redirect>
+    </exception>
+    -->
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/ingreso.xhtml</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/ingreso.xhtml</location>
+    </error-page>
+</web-app>

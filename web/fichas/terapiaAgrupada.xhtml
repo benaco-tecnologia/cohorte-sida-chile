@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Paciente #{basalesBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+            /*size: landscape;   /* auto is the initial value */
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+            white-space: nowrap;
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+        <div>
+        <h2>Ficha Paciente #{controlesBean.codigo}</h2>
+        <h3>Terapias Agrupadas</h3>
+        
+                  <h:panelGroup rendered="#{controlesBean.resultadosCD4.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                        <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="4" style="border-bottom: 1px solid white;">Controles CD4</td>
+                      </tr>
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td width="100px">Fecha</td>
+                        <td>Resultado</td>
+                        <td>%</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{controlesBean.resultadosCD4}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                              <tr style="background-color: #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                              <td>#{item[4]}</td>
+                              <td>#{item[5]} %</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                  <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() eq 0}">
+                                    No hay terapias activas en este control
+                                  </h:panelGroup>
+                                    <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() ne 0}"> 
+                                    
+                                        <table width="100%" border="1" cellspacing="0" cellpadding="5" align="right" class="subterapia" style="margin-left: 20px;">
+                                    <tr>
+                                        <td width="40px">N° Tar</td>
+                                        <td width="70px">Fecha</td>
+                                      <td width="70px">Término</td>
+                                      <td>Drogas</td>
+                                    </tr>
+                                    <ui:repeat var="item2" value="#{controlesBean.listadoTerapias(item[3].toString())}" varStatus="status2">
+                                    <tr>
+                                      <td>#{item2[1]}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[2])}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[6])}</td>
+                                      <td>#{terapiaBean.listarDrogas(controlesBean.pacienteID, item2[10].toString())}</td>
+                                    </tr>
+                                    </ui:repeat>
+                                  </table>
+                                    
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                              <td>#{item[4]}</td>
+                              <td>#{item[5]} %</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                  <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() eq 0}">
+                                    No hay terapias activas en este control
+                                  </h:panelGroup>
+                                    <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() ne 0}"> 
+                                    <table width="100%" border="1" cellspacing="0" cellpadding="5" align="right" class="subterapia" >
+                                    <tr>
+                                        <td width="40px">N° Tar</td>
+                                        <td width="70px">Fecha</td>
+                                      <td width="70px">Término</td>
+                                      <td>Drogas</td>
+                                    </tr>
+                                    <ui:repeat var="item2" value="#{controlesBean.listadoTerapias(item[3].toString())}" varStatus="status2">
+                                    <tr>
+                                      <td>#{item2[1]}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[2])}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[6])}</td>
+                                      <td>#{terapiaBean.listarDrogas(controlesBean.pacienteID, item2[10].toString())}</td>
+                                    </tr>
+                                    </ui:repeat>
+                                  </table>
+                                    
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+                  </h:panelGroup>
+                  <h:panelGroup rendered="#{controlesBean.resultadosCD4.size() eq 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                       <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                           <td align="center">No hay controles CD4 para mostrar</td>
+                       </tr>
+                    </table>
+                  </h:panelGroup>
+        <p> </p>
+                <h:panelGroup rendered="#{controlesBean.resultadosCV.size() ne 0}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5" style="border-right: 1px solid #F2F2F2;">
+                        <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px; ">
+                            <td colspan="4" style="border-bottom: 1px solid white;">Controles CV</td>
+                      </tr>
+                      <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                        <td width="20px">N°</td>
+                        <td width="100px">Fecha</td>
+                        <td>Resultado</td>
+                        <td>Logaritmo</td>
+                      </tr>
+                      <tbody>
+                          <ui:repeat var="item" value="#{controlesBean.resultadosCV}" varStatus="status">
+                          <h:panelGroup rendered="#{status.even}">
+                            <tr style="border-right: 1px solid #F2F2F2; background-color: #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                              <td>#{item[4]}</td>
+                              <td>#{item[5]}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                  <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() eq 0}">
+                                    No hay terapias activas en este control
+                                  </h:panelGroup>
+                                    <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() ne 0}"> 
+                                    
+                                    <table width="100%" border="1" cellspacing="0" cellpadding="5" align="right" class="subterapia">
+                                    <tr>
+                                        <td width="40px">N° Tar</td>
+                                        <td width="70px">Fecha</td>
+                                      <td width="70px">Término</td>
+                                      <td>Drogas</td>
+                                    </tr>
+                                    <ui:repeat var="item2" value="#{controlesBean.listadoTerapias(item[3].toString())}" varStatus="status2">
+                                    <tr>
+                                      <td>#{item2[1]}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[2])}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[6])}</td>
+                                      <td>#{terapiaBean.listarDrogas(controlesBean.pacienteID, item2[10].toString())}</td>
+                                    </tr>
+                                    </ui:repeat>
+                                  </table>
+                                    
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                          </h:panelGroup>
+                          <h:panelGroup rendered="#{status.odd}">
+                            <tr style="background-color: #F2F2F2; border-right: 1px solid #F2F2F2;">
+                              <td align="right">#{item[2]}</td>
+                              <td align="center">#{controlesBean.util.fechaTabla(item[3])}</td>
+                              <td>#{item[4]}</td>
+                              <td>#{item[5]}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3">
+                                  <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() eq 0}">
+                                    No hay terapias activas en este control
+                                  </h:panelGroup>
+                                    <h:panelGroup rendered="#{controlesBean.listadoTerapias(item[3].toString()).size() ne 0}"> 
+                                    
+                                    <table width="100%" border="1" cellspacing="0" cellpadding="5" align="right" class="subterapia">
+                                    <tr>
+                                        <td width="40px">N° Tar</td>
+                                        <td width="70px">Fecha</td>
+                                      <td width="70px">Término</td>
+                                      <td>Drogas</td>
+                                    </tr>
+                                    <ui:repeat var="item2" value="#{controlesBean.listadoTerapias(item[3].toString())}" varStatus="status2">
+                                    <tr>
+                                      <td>#{item2[1]}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[2])}</td>
+                                      <td>#{terapiaBean.formatoDespliegueFecha(item2[6])}</td>
+                                      <td>#{terapiaBean.listarDrogas(controlesBean.pacienteID, item2[10].toString())}</td>
+                                    </tr>
+                                    </ui:repeat>
+                                  </table>
+                                    
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                          </h:panelGroup>
+                        </ui:repeat>
+                      </tbody>
+                    </table>
+              </h:panelGroup>
+              <h:panelGroup rendered="#{controlesBean.resultadosCV.size() eq 0}">
+                <table width="100%" border="1" cellspacing="0" cellpadding="5"  style="margin-left: 15px;">
+                   <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                     <td align="center">No hay controles CV para mostrar</td>
+                   </tr>
+                </table>
+              </h:panelGroup>
+          
+        </div>
+    </body>
+</html>

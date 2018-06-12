@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>Ficha Paciente #{eventoBean.codigo}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style type="text/css" media="all">
+        @page  
+        { 
+            size: landscape;   /* auto is the initial value */ 
+            /* this affects the margin in the printer settings */ 
+            margin: 20mm 20mm 20mm 20mm;  
+        } 
+
+        body 
+        {
+            margin: 0 !important;
+            font-family: Times;    
+        }
+        td 
+        {
+            font-size: 12px;
+            vertical-align: top;
+        }
+        
+        table {
+            border: 0;
+            border-bottom: 1px solid #F2F2F2;
+            border-left: 1px solid #F2F2F2;
+            border-right: 1px solid #F2F2F2;
+        }
+        
+        tr, td {
+            border: 0;
+            white-space: nowrap;
+        }
+
+        th 
+        {
+            font-size: 12px;    
+        }
+        
+        h2, h3, h1 {
+            text-align: left;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+       <!--
+        function printThis() {
+            window.print();
+            setTimeout('window.close()', 10);
+        }
+        //-->
+    </script>
+    </head>
+    <body onLoad="printThis();">
+        <h:graphicImage library="images" name="logoCohorte.png" width="99" height="90" style="float: right; margin-bottom: 20px;" />
+        <div>
+        <h2>Ficha Paciente #{eventoBean.codigo}</h2>
+        <h3>Eventos</h3>
+        <h:panelGroup rendered="#{eventoBean.resultadosEventos.size() ne 0}">
+        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+            <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                <td>N° Evento</td>
+                <td>Fecha</td>
+                <td>Evento</td>
+                <td>Tratamiento</td>
+            </tr>
+            <tbody>
+                <ui:repeat var="item" value="#{eventoBean.resultadosEventos}" varStatus="status">
+                    <h:panelGroup rendered="#{status.even}">
+                      <tr>
+                            <td align="right">#{item[2]}</td>
+                            <td align="center">#{eventoBean.util.fechaTabla(item[3])}</td>
+                            <td>#{eventoBean.despliegueEvento(item[4])}</td>
+                            <td>#{eventoBean.despliegueTratamiento(item[5])}</td>
+                      </tr>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{status.odd}">
+                      <tr style="background-color: #F2F2F2;">
+                            <td align="right">#{item[2]}</td>
+                            <td align="center">#{eventoBean.util.fechaTabla(item[3])}</td>
+                            <td>#{eventoBean.despliegueEvento(item[4])}</td>
+                            <td>#{eventoBean.despliegueTratamiento(item[5])}</td>
+                      </tr>
+                    </h:panelGroup>
+                </ui:repeat>
+            </tbody>
+    	</table>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{eventoBean.resultadosEventos.size() eq 0}">
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td align="center">
+                        No hay eventos para mostrar
+                    </td>
+                </tr>
+            </table>
+        </h:panelGroup>
+        
+        <h:panelGroup rendered="#{eventoBean.resultadosMuerte.size() ne 0}">
+            <h3>Muerte</h3>
+            <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                    <td>Fecha</td>
+                    <td>Causa de Muerte</td>
+                    <td>Observación</td>
+                </tr>
+                <tbody>
+                    <ui:repeat var="item" value="#{eventoBean.resultadosMuerte}" varStatus="status">
+                        <h:panelGroup rendered="#{status.even}">
+                          <tr>
+                                <td align="right">#{eventoBean.util.fechaTabla(item[3])}</td>
+                                <td align="center">#{eventoBean.despliegueCausa(item[2])}</td>
+                                <td>#{item[4]}</td>
+                          </tr>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{status.odd}">
+                          <tr style="background-color: #F2F2F2;">
+                                <td align="right">#{eventoBean.util.fechaTabla(item[3])}</td>
+                                <td align="center">#{eventoBean.despliegueCausa(item[2])}</td>
+                                <td>#{item[4]}</td>
+                          </tr>
+                        </h:panelGroup>
+                    </ui:repeat>
+                </tbody>
+            </table>
+        </h:panelGroup>
+        </div>
+    </body>
+</html>

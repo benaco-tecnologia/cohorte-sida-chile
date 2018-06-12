@@ -1,0 +1,10 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form styleClass="busqueda no-movil">
+        <h:inputText value="#{busquedaBean.codigo}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" style="margin-right: 5px;" />
+        <h:commandButton action="#{busquedaBean.buscarMenu}" value="Buscar" />
+    </h:form>
+</ui:composition>

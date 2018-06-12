@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Eventos</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Eventos Cargada");
+                        $(".guardarEventoClick").unbind("click");
+                        $(".guardarEventoClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".fecha").val()==""){
+                                alert("Debe ingresar una fecha.");
+                                $(".fecha").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar el evento ingresado?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.paciente.id}" />
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{eventoBean.eventoID}" />
+                    <h:inputHidden value="#{eventoBean.pacienteID}" />
+                    <h:inputHidden value="#{eventoBean.codigo}" />
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                <td colspan="3" class="titulo">
+                    EVENTOS
+                </td>
+                <td class="titulo" align="right">
+                    <h:panelGroup layout="block" rendered="#{eventoBean.codigo ne ''}" styleClass="codigoInfo">
+                        Código: #{eventoBean.codigo}&nbsp;
+                    </h:panelGroup>
+                </td>
+                </tr><tr>
+                <td width="8%">
+                    NUM
+                </td>
+                <td width="10%">
+                    <p:inputText value="#{eventoBean.NEvento}" tabindex=""  />
+                </td>
+                <td width="10%">
+                    FECHA
+                </td>
+                <td>
+                    <p:inputText value="#{eventoBean.fecha}" tabindex="" styleClass="calendar2 fecha" type="date" required="true" maxlength="10" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    EVENTO
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{eventoBean.tipoEventoID}">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.tipoEvento}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    TRATAMIENTO
+                </td>
+                <td>
+                    <h:selectOneMenu value="#{eventoBean.tratamiento}">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />    
+                        <f:selectItem itemValue="S" itemLabel="SI" />
+                        <f:selectItem itemValue="N" itemLabel="NO" />
+                    </h:selectOneMenu>
+                </td>
+            </tr>
+                    <tr>
+                             <td>
+                                 Observaciones
+                             </td>
+                             <td colspan="5">
+                                 <h:inputTextarea value="#{eventoBean.observaciones}" class="inputs" style="width: 600px; height: 50px;" />
+                             </td>
+                           </tr>
+                <tr>
+                   <td colspan="3" class="titulo" align="left">
+                           <p:commandButton action="#{eventoBean.generarFicha}" value="Ficha Eventos" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                       
+                   </td>
+                   <td colspan="3" class="titulo" align="right">
+                       <p:commandButton action="#{eventoBean.guardarEvento}" value="Aceptar" type="submit" ajax="false" class="guardarEventoClick" />
+                   </td>
+                </tr>
+        </tbody></table>
+                    <div class="debug_log"> Log: <h:outputText value="#{eventoBean.resultado}" /></div>
+                </h:form>
+                <p>&nbsp;</p>
+                <h:form>
+                    <h:panelGroup rendered="#{eventoBean.resultadosEventos.size() eq 0}">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                            <tr style="background-color: #F2F2F2; font-weight: bold; font-size: 13px;">
+                                <td align="center">
+                                    No hay eventos ingresados
+                                </td>
+                            </tr>
+                        </table>
+                    </h:panelGroup>
+                    <p:dataTable rowIndexVar="rowIndex" id="tblEventos" value="#{eventoBean.resultadosEventos}" rendered="#{eventoBean.resultadosEventos.size() ne 0}" var="item" paginator="false">
+                    <f:facet name="header">
+                        Eventos Ingresadas
+                    </f:facet>
+                    <p:column headerText="N° Evento" width="70">
+                        <h:outputText value="#{item[2]}" />
+                    </p:column>
+                        <p:column headerText="Fecha" width="80">
+                            <h:outputText value="#{eventoBean.util.fechaTabla(item[3])}" />
+                    </p:column>
+                    <p:column headerText="Evento">                        
+                        <h:outputText value="#{eventoBean.despliegueEvento(item[4])}" />
+                    </p:column>
+                    <p:column headerText="Tratamiento" width="100">
+                        <h:outputText value="#{eventoBean.despliegueTratamiento(item[5])}" />
+                    </p:column>
+                    <p:column headerText="Obs.">
+                        <h:panelGroup layout="span" rendered="#{item[6] eq null}">NO</h:panelGroup>
+                        <h:panelGroup layout="span" rendered="#{item[6] ne null}">SI</h:panelGroup>
+                    </p:column>
+                    <p:column style="width:145px;text-align: center">
+                        <input type="button" class="modificarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Modificar" />
+                        <input type="button" class="eliminarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Eliminar" />
+                    </p:column>
+                    <f:facet name="footer">
+                        Se encontraron #{eventoBean.resultadosEventos.size()} eventos para este paciente.
+                    </f:facet>
+                </p:dataTable>
+                </h:form>
+                <p>&nbsp;</p>
+                <h:panelGroup layout="block" rendered="#{!eventoBean.muerte(eventoBean.pacienteID)}">
+                <h:form>
+                    
+                    <h:inputHidden value="#{pacienteBean.paciente.id}" />
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{eventoBean.muerteID}" />
+                    <h:inputHidden value="#{eventoBean.pacienteID}" />
+                    <h:inputHidden value="#{eventoBean.codigo}" />
+                    
+                    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tbody>
+                    <tr>
+                <td colspan="6" class="titulo">
+                    MUERTE
+                </td>
+                </tr><tr>
+                <td width="10%">
+                    FECHA FALLECIMIENTO
+                </td>
+                <td width="10%">
+                    <p:inputText value="#{eventoBean.fechaMuerte}" tabindex="1" styleClass="calendar2" type="date" maxlength="10" />
+                </td>
+                <td width="10%">
+                    CAUSA FALLECIMIENTO
+                </td>
+                <td width="15%">
+                    <h:selectOneMenu value="#{eventoBean.causaMuerteID}">
+                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                        <f:selectItems value="#{listBoxBean.causaMuerte}" />
+                    </h:selectOneMenu>
+                </td>
+                <td>
+                    OBSERVACIÓN
+                </td>
+                <td>
+                    <p:inputText value="#{eventoBean.observacion}" tabindex="1" />
+                </td>
+                
+                </tr>
+                <tr>
+                    <td colspan="3" class="titulo" align="left">
+                    </td>
+                    <td colspan="3" class="titulo" align="right">
+                        <p:commandButton action="#{eventoBean.guardarMuerte}" value="Aceptar" type="submit" ajax="false" />
+                    </td>
+                </tr>
+        </tbody></table>
+                    Log: <h:outputText value="#{eventoBean.resultado}" />
+                </h:form>
+                </h:panelGroup>
+                <p>&nbsp;</p>
+                <h:form>
+                    <p:dataTable rowIndexVar="rowIndex" id="tblMuerte" value="#{eventoBean.resultadosMuerte}" rendered="#{eventoBean.resultadosMuerte.size() ne 0}" var="item" paginator="false">
+                    <f:facet name="header">
+                        Muerte
+                    </f:facet>
+                    <p:column headerText="Fecha" width="80">
+                        <h:outputText value="#{eventoBean.util.fechaTabla(item[3])}" />
+                    </p:column>
+                        <p:column headerText="Causa de Muerte">
+                        <h:outputText value="#{eventoBean.despliegueCausa(item[2])}" />
+                    </p:column>
+                    <p:column headerText="Observación">                        
+                        <h:outputText value="#{item[4]}" />
+                    </p:column>
+                    <p:column style="width:145px;text-align: center">
+                        <input type="button" class="modificarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Modificar" />
+                        <input type="button" class="eliminarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Eliminar" />
+                    </p:column>
+                    <f:facet name="footer">
+                        &nbsp;
+                    </f:facet>
+                </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

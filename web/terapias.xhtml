@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        <ui:composition template="./templates/contenido.xhtml">
+            <ui:define name="head">
+                <title>Cohorte SIDA Chile - Terapias</title>
+            </ui:define>
+            <ui:define name="content">
+                <h:outputScript target="head">
+                    $(document).ready(function() {
+                        console.log("Sección Terapias Cargada");
+                        $(".guardarTerapiaClick").unbind("click");
+                        $(".guardarTerapiaClick").click(function(){
+                            $('body').css('opacity','0.1');
+                            if ($(".fecha").val()==""){
+                                alert("Debe ingresar una fecha.");
+                                $(".fecha").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if ($(".droga1").val() == "") {
+                                alert("Debe ingresar al menos una droga");
+                                $(".droga1").focus();
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                            if (confirm("¿Realmente desea guardar la terapia ingresada?")) {
+                                $('body').css('opacity','1');
+                                return true;
+                            } else {
+                                $('body').css('opacity','1');
+                                return false;
+                            }
+                        });
+                    });
+                </h:outputScript>
+                <ui:include src="/includes/menuDatos.xhtml" />
+                <h:form>
+                    <h:inputHidden value="#{pacienteBean.paciente.id}" />
+                    <h:inputHidden value="#{pacienteBean.pacienteID}" />
+                    <h:inputHidden value="#{terapiaBean.terapiaID}" />
+                    <h:inputHidden value="#{terapiaBean.pacienteID}" />
+                    <h:inputHidden value="#{terapiaBean.codigo}" />
+                        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                         <tbody>
+                             <tr>
+                         <td colspan="5" class="titulo">
+                             TERAPIAS
+                         </td>
+                         <td class="titulo" align="right">
+                             <h:panelGroup layout="block" rendered="#{terapiaBean.codigo ne ''}" styleClass="codigoInfo">
+                                 Código: #{terapiaBean.codigo}&nbsp;
+                             </h:panelGroup>
+                         </td>
+                         </tr>
+                            <tr>
+                             <td width="10%">
+                                 Nº TAR
+                             </td>
+                             <td width="15%">
+                                 <p:inputText value="#{terapiaBean.numeroTar}" tabindex="" required="false" class="inputs" title="N° generado automáticamente." />
+                             </td>
+                             <td width="10%">
+                                 FECHA
+                             </td>
+                             <td width="15%" colspan="3">
+                                 <p:inputText value="#{terapiaBean.fecha}" tabindex="" styleClass="calendar2 inputs fecha" type="date" required="true" maxlength="10" />
+                             </td>
+
+                         </tr>
+                         <tr>
+                             <td>
+                                 DROGAS</td>
+                             <td colspan="5">
+                                 <h:selectOneMenu style="margin-bottom: 5px;" value="#{terapiaBean.droga1}" title="Droga N°1" required="true" class="inputs droga1">
+                                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu>&nbsp;
+                                <h:selectOneMenu style="margin-bottom: 5px;" value="#{terapiaBean.droga2}"  title="Droga N°2" class="inputs droga2">
+                                      <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu>&nbsp;
+                                <h:selectOneMenu style="margin-bottom: 5px;" value="#{terapiaBean.droga3}"  title="Droga N°3" class="inputs droga3">
+                                      <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu><br />
+                                <h:selectOneMenu value="#{terapiaBean.droga4}"  title="Droga N°4" class="inputs droga4">
+                                      <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu>&nbsp;
+                                <h:selectOneMenu value="#{terapiaBean.droga5}" title="Droga N°5" class="inputs droga5">
+                                        <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu>&nbsp;
+                                <h:selectOneMenu value="#{terapiaBean.droga6}"  title="Droga N°6" class="inputs droga6">
+                                         <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                        <f:selectItems value="#{listBoxBean.droga}" />
+                                </h:selectOneMenu>
+                             </td>
+                           </tr>
+
+                         <tr>
+                             <td>
+                                 NO CONTINÚA
+                             </td>
+                             <td>
+                                 <h:selectOneMenu value="#{terapiaBean.noContinua}" class="inputs">
+                                     <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                     <f:selectItem itemValue="CA" itemLabel="CAMBIÓ" />
+                                     <f:selectItem itemValue="SU" itemLabel="SUSPENDIÓ" />
+                                 </h:selectOneMenu>
+                             </td>
+                             <td>
+                                 CAUSA TERMINO
+                             </td>
+                             <td>
+                                 <h:selectOneMenu value="#{terapiaBean.causaTerminoID}" class="inputs">
+                                     <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                     <f:selectItems value="#{listBoxBean.causaTermino}" />
+                             </h:selectOneMenu>
+                             </td>
+                             <td>
+                                 RAZÓN TOXICIDAD
+                             </td>
+                             <td>
+                                 <h:selectOneMenu value="#{terapiaBean.razonToxicidadID}" class="inputs">
+                                     <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                     <f:selectItems value="#{listBoxBean.razonToxicidad}" />
+                             </h:selectOneMenu>
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 FECHA TERMINO TAR
+                             </td>
+                             <td colspan="5">
+                                 <p:inputText value="#{terapiaBean.fechaTermino}" tabindex="" styleClass="calendar2 inputs" type="date" required="false" maxlength="10" />
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 GENO
+                             </td>
+                             <td>
+                                 <h:selectManyCheckbox value="#{terapiaBean.geno}">
+                                     <f:selectItem itemValue="SI" itemLabel="" />
+                                 </h:selectManyCheckbox>
+                             </td>
+                             <td>
+                                 GENO FECHA
+                             </td>
+                             <td>
+                                 <p:inputText value="#{terapiaBean.genoFecha}" tabindex="" styleClass="calendar2 inputs" type="date" required="false" maxlength="10" />
+                             </td>
+                             <td>
+                                 OBSERVACIÓN GENO
+                             </td>
+                             <td>
+                                 <p:inputText value="#{terapiaBean.genoObs}" class="inputs" />
+                             </td>
+                         </tr>
+                         <tr>
+                             <td>
+                                 TROPISMO VIRAL R5
+                             </td>
+                             <td colspan="5">
+                                 <h:selectOneMenu value="#{terapiaBean.tropismo}" class="inputs">
+                                     <f:selectItem itemValue="" itemLabel="SIN DATOS" />
+                                     <f:selectItem itemValue="PO" itemLabel="POSITIVO" />
+                                     <f:selectItem itemValue="NE" itemLabel="NEGATIVO" />
+                                     <f:selectItem itemValue="NS" itemLabel="NO DISPONIBLE SOLICITADO" />
+                                     <f:selectItem itemValue="NN" itemLabel="NO DISPONIBLE NO SOLICITADO" />
+                                 </h:selectOneMenu>
+                             </td>
+                           </tr>
+                             <tr>
+                             <td>
+                                 Observaciones
+                             </td>
+                             <td colspan="5">
+                                 <h:inputTextarea value="#{terapiaBean.observaciones}" class="inputs" style="width: 600px; height: 50px;" />
+                             </td>
+                           </tr>
+                            <tr>
+                                <td colspan="3" class="titulo" align="left">
+                                    <p:commandButton action="#{terapiaBean.generarFicha}" value="Ficha Terapias" type="submit" ajax="false" onclick="form.target='_blank'" onblur="form.target='_self'"/>
+                                </td>
+                                <td colspan="3" class="titulo" align="right">
+                                   <p:commandButton action="#{terapiaBean.guardarTerapia}" value="Aceptar" type="submit" ajax="false" class="guardarTerapiaClick" />
+                                </td>
+                            </tr>
+                     </tbody></table>
+                    <div class="debug_log"><h:outputText value="#{terapiaBean.resultado}" escape="false" /></div>
+                    
+                </h:form>
+                <p>&nbsp;</p>
+                <h:panelGroup rendered="#{terapiaBean.resultados.size() eq 0 and terapiaBean.codigo ne ''}">
+                    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+                       <tr style="background-color: #E2E2E2; font-weight: bold; font-size: 13px;">
+                           <td align="center">No hay terapias ingresadas para el paciente #{terapiaBean.codigo}</td>
+                       </tr>
+                    </table>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{terapiaBean.resultados.size() ne 0}">
+                    <h:form>
+                        <p:dataTable rowIndexVar="rowIndex" id="tbl" value="#{terapiaBean.resultados}" var="item" paginator="false">
+                            <f:facet name="header">
+                                Terapias Ingresadas
+                            </f:facet>
+                            <p:column headerText="N° Tar" width="50">
+                                <h:outputText value="#{item[1]}" />
+                            </p:column>
+                                <p:column headerText="Fecha" width="80">
+                                <h:outputText value="#{terapiaBean.formatoDespliegueFecha(item[2])}" />
+                            </p:column>
+                            <p:column headerText="Droga 1" width="60">                        
+                                <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 1, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="Droga 2" width="60">                        
+                               <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 2, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="Droga 3" width="60">                        
+                                <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 3, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="Droga 4" width="60">                        
+                                <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 4, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="Droga 5" width="60">                        
+                                <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 5, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="Droga 6" width="60">                        
+                                <h:outputText value="#{terapiaBean.despliegueDroga(terapiaBean.pacienteID, 6, item[10].toString())}" />
+                            </p:column>
+                            <p:column headerText="No Continua" width="100">
+                                <h:outputText value="#{terapiaBean.noContinuaDespliegue(item[3])}" />
+                            </p:column>
+                            <p:column headerText="Causa Termino">
+                                <h:outputText value="#{terapiaBean.causaTermino(item[4])}" />
+                            </p:column>
+                            <p:column headerText="Razon Toxicidad">
+                                <h:outputText value="#{terapiaBean.razonToxicidad(item[5])}" />
+                            </p:column>
+                            <p:column headerText="Término" width="80">
+                                <h:outputText value="#{terapiaBean.formatoDespliegueFecha(item[6])}" />
+                            </p:column>
+                            <p:column headerText="Geno" width="40">
+                                <h:outputText value="#{item[7]}" />
+                            </p:column>
+                            <p:column headerText="Geno Fecha" width="80">
+                                <h:outputText value="#{terapiaBean.formatoDespliegueFecha(item[8])}" />
+                            </p:column>
+                                <p:column headerText="Geno Obs.">
+                                <h:outputText value="#{terapiaBean.desplegarObservacion(item[12])}" />
+                            </p:column>
+                            <p:column headerText="Trop.">
+                                <h:outputText value="#{terapiaBean.torpismoViral(item[9])}" />
+                            </p:column>
+                            <p:column headerText="Obs.">
+                                <h:outputText value="#{terapiaBean.desplegarObservacion(item[11])}" />
+                              <!--
+                               <h:panelGroup layout="span" rendered="#{item[11] eq null}">NO</h:panelGroup>
+                                <h:panelGroup layout="span" rendered="#{item[11] ne null}">
+                                    <h:panelGroup layout="span" rendered="#{item[11].toString() eq null}">NO</h:panelGroup>
+                                    <h:panelGroup layout="span" rendered="#{item[11].toString() ne null}">SI</h:panelGroup>
+                                </h:panelGroup>-->
+                            </p:column>
+                            <p:column style="width:145px;text-align: center">
+                                <input type="button" class="modificarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Modificar" />
+                                <input type="button" class="eliminarTerapia" terapiaID="#{item[10].toString()}" pacienteID="#{terapiaBean.pacienteID}" value="Eliminar" />
+                            </p:column>
+                            <f:facet name="footer">
+                                Se encontraron #{terapiaBean.resultados.size()} terapias para este paciente.
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+                    <h:form>
+                        <h:inputText value="#{terapiaBean.terapiaID}" styleClass="eliminarTerapiaVal" style="display: none;" />
+                        <h:inputText value="#{terapiaBean.pacienteID}" styleClass="eliminarTerapiaPac" style="display: none;" />
+                        <h:inputText value="#{pacienteBean.pacienteID}" styleClass="eliminarTerapiaPac" style="display: none;" />
+                        <h:commandButton action="#{terapiaBean.eliminarTerapia}" styleClass="eliminarTerapiaBtn" style="display: none;" />
+                    </h:form>
+                    <h:form>
+                        <h:inputText value="#{terapiaBean.terapiaID}" styleClass="modificarTerapiaVal" style="display: none;" />
+                        <h:inputText value="#{terapiaBean.pacienteID}" styleClass="modificarTerapiaPac" style="display: none;" />
+                        <h:inputText value="#{pacienteBean.pacienteID}" styleClass="modificarTerapiaPac" style="display: none;" />
+                        <h:commandButton action="#{terapiaBean.modificarTerapia}" styleClass="modificarTerapiaBtn" style="display: none;" />
+                    </h:form>
+                </h:panelGroup>
+                
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
